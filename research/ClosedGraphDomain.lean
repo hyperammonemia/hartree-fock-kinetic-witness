@@ -18,8 +18,8 @@ theorem multiplication_closed (w : Config → ℝ) :
     IsClosed {z : Wave × Wave | ∀ᵐ x ∂volume, z.2 x = w x*z.1 x} := by
   apply IsSeqClosed.isClosed
   intro f v hf hv
-  obtain ⟨k,hk,h₁⟩ := (tendstoInMeasure_of_tendsto_Lp hv.fst).exists_seq_tendsto_ae
-  obtain ⟨m,hm,h₂⟩ := (tendstoInMeasure_of_tendsto_Lp (hv.snd.comp hk.tendsto_atTop)).exists_seq_tendsto_ae
+  obtain ⟨k,hk,h₁⟩ := (tendstoInMeasure_of_tendsto_Lp hv.fst_nhds).exists_seq_tendsto_ae
+  obtain ⟨m,hm,h₂⟩ := (tendstoInMeasure_of_tendsto_Lp (hv.snd_nhds.comp hk.tendsto_atTop)).exists_seq_tendsto_ae
   have he : ∀ᵐ x : Config ∂volume, ∀ n : ℕ, (f n).2 x = w x*(f n).1 x :=
     ae_all_iff.mpr hf
   filter_upwards [h₁,h₂,he] with x hx hy heq
@@ -53,17 +53,23 @@ theorem inner_test (a : Wave) (φ : Config → ℝ) (hc : Continuous φ) (hk : H
 theorem weak_iff (a b : Wave) (v : Config) :
     (a,b) ∈ weakGraph v ↔ ∀ (φ : Config → ℝ), ContDiff ℝ 1 φ → HasCompactSupport φ →
       (∫ x, a x * fderiv ℝ φ x v) = -(∫ x, b x*φ x) := by
-  change (∀ (φ : Config → ℝ) (hφ : ContDiff ℝ 1 φ) (hk : HasCompactSupport φ),
-    ⟪a,testDerivative φ v hφ hk⟫_ℝ = -⟪b,testWave φ hφ.continuous hk⟫_ℝ) ↔ _
-  simp only [testDerivative,inner_test,testSlope]
+  have eq (φ : Config → ℝ) (hφ : ContDiff ℝ 1 φ) (hk : HasCompactSupport φ) :
+      ⟪a,testDerivative φ v hφ hk⟫_ℝ = ∫ x, a x * fderiv ℝ φ x v :=
+    inner_test a (testSlope φ v) _ _
+  constructor
+  · intro h φ hφ hk
+    simpa only [eq,inner_test] using h φ hφ hk
+  · intro h φ hφ hk
+    rw [eq,inner_test]
+    exact h φ hφ hk
 
 theorem weak_closed (v : Config) : IsClosed (weakGraph v) := by
   apply IsSeqClosed.isClosed
   intro f a hf ha φ hφ hk
   have h₁ : Tendsto (fun n => ⟪(f n).1,testDerivative φ v hφ hk⟫_ℝ) atTop
-      (𝓝 ⟪a.1,testDerivative φ v hφ hk⟫_ℝ) := ha.fst.inner tendsto_const_nhds
+      (𝓝 ⟪a.1,testDerivative φ v hφ hk⟫_ℝ) := ha.fst_nhds.inner tendsto_const_nhds
   have h₂ : Tendsto (fun n => -⟪(f n).2,testWave φ hφ.continuous hk⟫_ℝ) atTop
-      (𝓝 (-⟪a.2,testWave φ hφ.continuous hk⟫_ℝ)) := (ha.snd.inner tendsto_const_nhds).neg
+      (𝓝 (-⟪a.2,testWave φ hφ.continuous hk⟫_ℝ)) := (ha.snd_nhds.inner tendsto_const_nhds).neg
   exact tendsto_nhds_unique h₁ (h₂.congr (fun n => (hf n φ hφ hk).symm))
 
 abbrev Carrier := Wave × (Fin 2 → Fin 3 → Wave) × Wave × Wave
@@ -82,10 +88,12 @@ theorem domain_closed : IsClosed domain := by
   · apply (weak_closed (axis p i)).isSeqClosed (fun n => (hf n).1 p i)
     have hc : Continuous (fun a : Carrier => (a.1,a.2.1 p i)) := by fun_prop
     exact hc.continuousAt.tendsto.comp ha
-  · apply (multiplication_closed trapWeight).isSeqClosed (fun n => (hf n).2.1)
+  · apply (multiplication_closed trapWeight).isSeqClosed
+      (x:=fun n => ((f n).1,(f n).2.2.1)) (p:=(a.1,a.2.2.1)) (fun n => (hf n).2.1)
     have hc : Continuous (fun a : Carrier => (a.1,a.2.2.1)) := by fun_prop
     exact hc.continuousAt.tendsto.comp ha
-  · apply (multiplication_closed pairWeight).isSeqClosed (fun n => (hf n).2.2)
+  · apply (multiplication_closed pairWeight).isSeqClosed
+      (x:=fun n => ((f n).1,(f n).2.2.2)) (p:=(a.1,a.2.2.2)) (fun n => (hf n).2.2)
     have hc : Continuous (fun a : Carrier => (a.1,a.2.2.2)) := by fun_prop
     exact hc.continuousAt.tendsto.comp ha
 

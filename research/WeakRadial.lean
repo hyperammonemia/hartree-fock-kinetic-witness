@@ -32,11 +32,11 @@ def positivePart (u : ℝ → ℝ) (r : ℝ) : ℝ := max (u r) 0
 private theorem positivePart_deriv {u : ℝ → ℝ} (hu : Continuous u) (r : ℝ) :
     deriv (positivePart u) r = if 0 < u r then deriv u r else 0 := by
   by_cases hr : 0 < u r
-  · rw [if_pos hr]
+  · simp only [hr, ↓reduceIte]
     apply Filter.EventuallyEq.deriv_eq
     filter_upwards [hu.continuousAt (Ioi_mem_nhds hr)] with t ht
     exact max_eq_left (le_of_lt ht)
-  · rw [if_neg hr]
+  · simp only [hr, ↓reduceIte]
     have hm : IsMinOn (positivePart u) univ r := by
       intro t _
       change max (u r) 0 ≤ max (u t) 0

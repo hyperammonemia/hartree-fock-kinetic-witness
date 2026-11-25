@@ -36,7 +36,7 @@ theorem coulomb_matrix : matrix true = [[1,1,21],[1,11,97],[21,97,4985]] := by d
 /-- e and s are the shifted one- and two-electron energies divided by λ².
 The trial is the Gaussian times 1 − λ(P₂/30 + P₄/1600). -/
 theorem removal_from_ordinary_gap (D σ x z e s : ℝ)
-    (mass : x^2 ≤ 1) (variance : σ^2 ≤ 1/33) (Dlo : 159/200 ≤ D) (Dhi : D ≤ 1)
+    (mass : x^2 ≤ 1) (variance : σ^2 ≤ 1/33) (Dlo : 159/200 ≤ D)
     (one : 49/50*z^2-2*σ*x*z ≤ e)
     (trial : (1+(383/24000)/10000)*s ≤
         223/6000-2*(223/4800)*D + D*((83917/4608000)+(383/24000))/100) :
@@ -44,7 +44,7 @@ theorem removal_from_ordinary_gap (D σ x z e s : ℝ)
   have h := sq_nonneg ((49/50:ℝ)*z-σ*x)
   have hx := mul_nonneg (sq_nonneg σ) (sub_nonneg.mpr mass)
   have low : -(50/(49*33):ℝ) ≤ e := by nlinarith only [one,h,hx,variance]
-  have hi : s ≤ -(9/250:ℝ) := by linarith only [trial,Dlo,Dhi]
+  have hi : s ≤ -(9/250:ℝ) := by linarith only [trial,Dlo]
   linarith only [low,hi]
 
 #print axioms gram_matrix

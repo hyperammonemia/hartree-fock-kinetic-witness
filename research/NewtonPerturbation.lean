@@ -37,6 +37,7 @@ private theorem reweighted_window (f : X → ℝ) (hf : Integrable f)
   have hi : Integrable (fun y => f y * (FinitePotential.weight y)^2) := by
     apply (hf.const_mul ((1+b)^2)).mono' (hf.aestronglyMeasurable.mul (hm.pow_const 2).aestronglyMeasurable)
     filter_upwards with y
+    change ‖f y * FinitePotential.weight y^2‖ ≤ (1+b)^2 * f y
     rw [Real.norm_of_nonneg (mul_nonneg (hf0 _) (sq_nonneg _)),mul_comm (f y)]
     exact mul_le_mul_of_nonneg_right (squared_window y).2 (hf0 _)
   constructor
@@ -68,11 +69,11 @@ private theorem ratios (A Af Z Zf : ℝ) (hA : 0 ≤ A) (hZ : 0 < Z)
   · have v1 := mul_le_mul_of_nonneg_right aw.1 hZ.le
     have v2 := mul_le_mul_of_nonneg_left zw.2 a0
     have v3 := mul_le_mul_of_nonneg_right lo (mul_nonneg hA hZ.le)
-    field_simp [hZ.ne', zfp.ne'] <;> nlinarith only [v1,v2,v3]
+    field_simp [hZ.ne', zfp.ne']; nlinarith only [v1,v2,v3]
   · have v1 := mul_le_mul_of_nonneg_right aw.2 hZ.le
     have v2 := mul_le_mul_of_nonneg_left zw.1 a1
     have v3 := mul_le_mul_of_nonneg_right hi (mul_nonneg hA hZ.le)
-    field_simp [hZ.ne', zfp.ne'] <;> nlinarith only [v1,v2,v3]
+    field_simp [hZ.ne', zfp.ne']; nlinarith only [v1,v2,v3]
 
 theorem exact_field_change (x : X) (hm : Measurable FinitePotential.weight)
     (hρ : Integrable ρ) (hZ : 0 < ∫ y, ρ y)

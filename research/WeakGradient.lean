@@ -27,11 +27,14 @@ theorem weakPartial_congr {u w du dw : Config → ℂ} {v : Config}
 theorem kinetic_congr {u w : State} (h : ∀ a b, u.wave a b =ᵐ[volume] w.wave a b) :
     kinetic u = kinetic w := by
   unfold kinetic
-  congr 1
-  repeat' apply Finset.sum_congr rfl; intro _ _
+  apply congrArg (fun x : ℝ => x / 2)
+  refine Finset.sum_congr rfl (fun a _ => ?_)
+  refine Finset.sum_congr rfl (fun b _ => ?_)
+  refine Finset.sum_congr rfl (fun p _ => ?_)
+  refine Finset.sum_congr rfl (fun j _ => ?_)
   apply integral_congr_ae
-  filter_upwards [weakPartial_congr (h _ _) (u.weakGradient _ _ _ _)
-    (w.weakGradient _ _ _ _) (u.gradSquareIntegrable _ _ _ _) (w.gradSquareIntegrable _ _ _ _)]
+  filter_upwards [weakPartial_congr (h a b) (u.weakGradient a b p j)
+    (w.weakGradient a b p j) (u.gradSquareIntegrable a b p j) (w.gradSquareIntegrable a b p j)]
     with z hz
   rw [hz]
 

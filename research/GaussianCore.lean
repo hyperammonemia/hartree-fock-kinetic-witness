@@ -64,7 +64,8 @@ theorem gaussian_half_interval (f d : ℝ → E) (hd : ∀ x, HasDerivAt f (d x)
   have ca : Continuous A := continuous_iff_continuousAt.mpr (fun x => (hA x).continuousAt)
   have hf : Continuous f := continuous_iff_continuousAt.mpr (fun x => (hd x).continuousAt)
   have wp (x : ℝ) : HasDerivAt w ((-2)*x*w x) x := by
-    convert (((hasDerivAt_id x).pow 2).neg.exp) using 1 <;> simp [w] <;> ring
+    convert (((hasDerivAt_id x).pow 2).neg.exp) using 1 <;> simp [w]
+    ring
   have cf : Continuous (fun x => w x*‖f x-f 0‖^2) := hw.mul ((hf.sub continuous_const).norm.pow 2)
   have cx : Continuous (fun x : ℝ => w x*(x*A x)) := hw.mul (continuous_id.mul ca)
   have hcwp : Continuous (fun x : ℝ => (-2)*x*w x) := (continuous_const.mul continuous_id).mul hw

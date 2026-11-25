@@ -38,8 +38,9 @@ theorem physical_weak_derivative (μ : Measure DilationConfig) [IsAddHaarMeasure
     (hweak : WeakAxis μ Y dY v) :
     WeakAxis μ (dilatedField l 3 Y) (dilatedField l 4 dY) v := by
   intro φ hφ hcompact
-  have htest : ContDiff ℝ 1 (fun x : DilationConfig => φ (l • x)) :=
-    hφ.comp (contDiff_const.smul contDiff_id)
+  have hlin : ContDiff ℝ 1 (fun x : DilationConfig => l • x) :=
+    (l • ContinuousLinearMap.id ℝ DilationConfig).contDiff
+  have htest : ContDiff ℝ 1 (fun x : DilationConfig => φ (l • x)) := hφ.comp hlin
   have hw := hweak (fun x => φ (l • x)) htest (hcompact.comp_smul hl.ne')
   have test_pair : (∫ x, Y x*fderiv ℝ (fun q => φ (l • q)) x v ∂μ) =
         l*(∫ x, Y x*fderiv ℝ φ (l • x) v ∂μ) := by

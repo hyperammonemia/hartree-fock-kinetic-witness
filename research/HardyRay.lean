@@ -33,13 +33,14 @@ theorem radial_hardy_identity {b : ℝ} {f df : ℝ → ℝ}
   rw [heq]
   dsimp only [R]
   have h4 : Continuous (fun r : ℝ => 4 * (r^2 * (df r)^2)) := by fun_prop
-  rw [intervalIntegral.integral_sub (h4.intervalIntegrable _ _) ((hfc.pow 2).intervalIntegrable _ _),
+  have hSquare : Continuous (fun r : ℝ => (f r)^2) := by fun_prop
+  rw [intervalIntegral.integral_sub (h4.intervalIntegrable _ _) (hSquare.intervalIntegrable _ _),
     intervalIntegral.integral_const_mul]
 
 theorem radial_hardy {b : ℝ} {f df : ℝ → ℝ} (hb0 : 0 ≤ b)
     (hf : ∀ r, HasDerivAt f (df r) r) (hdf : Continuous df) (hb : f b = 0) :
     (∫ r in 0..b, (f r)^2) ≤ 4 * ∫ r in 0..b, r^2 * (df r)^2 := by
-  have hpos := intervalIntegral.integral_nonneg hb0
+  have hpos := intervalIntegral.integral_nonneg (μ := volume) hb0
     (f := fun r => (2 * r * df r + f r)^2) (fun _ _ => sq_nonneg _)
   rw [radial_hardy_identity hf hdf hb] at hpos
   linarith

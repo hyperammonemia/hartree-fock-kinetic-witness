@@ -55,10 +55,10 @@ theorem fiber_test_pairing {U : ℝ → E} {v : E} {η : ℝ → ℝ} {η' x ε 
   change ⟪v, deriv ((η / fun t => fiberLength ε (U t)) • U) x⟫_ℝ = _
   rw [hd.deriv, inner_add_right, real_inner_smul_right, real_inner_smul_right,
     real_inner_self_eq_norm_sq, real_inner_comm (U x) v]
-  try simp only [Pi.div_apply]
+  simp only [Pi.div_apply]
   unfold fiberSpeed
   field_simp [hn]
-  <;> ring
+  ring
 
 theorem fiber_test_kinetic_lower {U : ℝ → E} {v : E} {η : ℝ → ℝ} {η' x ε : ℝ}
     (he : 0 < ε) (hU : HasDerivAt U v x) (hη : HasDerivAt η η' x) (hη0 : 0 ≤ η x) :

@@ -40,7 +40,11 @@ theorem remaining_continuous (i : Fin 2) : Continuous (remaining i) := by
 
 theorem radialSlope_zero : radialSlope 0 = 0 := by
   have h : (0:ℝ)-radius ≤ 0 := by linarith [show 0 < radius from Real.exp_pos _]
-  simp [radialSlope,(envelope_derivative 0).deriv,switchSlope,FinitePotential.switch,h]
+  have hs : switchSlope (0-radius) = 0 := ite_eq_left h
+  have hv : FinitePotential.switch (0-radius) = 0 := ite_eq_left h
+  unfold radialSlope
+  rw [(envelope_derivative 0).deriv,hs,hv]
+  simp
 
 theorem radialSlope_unit_component (x : Position) (j : Fin 3) :
     radialSlope ‖x‖ * radialUnit x j = radialSlope ‖x‖ * (x j/‖x‖) := by
@@ -67,7 +71,8 @@ theorem normalizedWave_memLp (Y : Configuration → ℝ) (hY : MemLp Y 2 configM
   have h : MemLp (fun x : Configuration => weight x.1*weight x.2) ⊤ configMeasure :=
     (weight_top continuous_fst).fun_mul (weight_top continuous_snd)
   have h' := h.mul_const (stateNorm Y)⁻¹
-  simpa only [normalizedWave,stepWeight,div_eq_mul_inv] using
+  change MemLp (fun x : Configuration => ((weight x.1*weight x.2)/stateNorm Y)*Y x) 2 configMeasure
+  simpa only [div_eq_mul_inv] using
     (h'.fun_mul hY : MemLp (fun x => ((weight x.1*weight x.2)*(stateNorm Y)⁻¹)*Y x) 2 configMeasure)
 
 /-- The gradient displayed by the product rule lies in L² for every H¹ input. -/
@@ -112,10 +117,10 @@ theorem physical_kinetic_remainder (Y : Configuration → ℝ) (d : Fin 2 → Co
          probe configMeasure Y sineProfile| ≤ 54*amplitude := by
   apply constructed_kinetic_remainder Y d (fun i x => radialUnit (position i x))
     hY.integrable_sq mass
-  · exact fun i => (memLp_two_iff_integrable_sq_norm (hd i).1).1 (hd i)
+  · exact fun i => (memLp_two_iff_integrable_sq_norm (hd i).aestronglyMeasurable).1 (hd i)
   · intro i
     have h := physicalGradient_memLp Y d hY hd i
-    exact (memLp_two_iff_integrable_sq_norm h.1).1 h
+    exact (memLp_two_iff_integrable_sq_norm h.aestronglyMeasurable).1 h
   · exact hgrad
   · exact fun i => ae_of_all _ fun x => radialUnit_norm (position i x)
 

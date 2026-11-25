@@ -77,7 +77,7 @@ private theorem select_rise {v : ℝ → ℝ} (hv : Continuous v) {q c : ℝ} (h
     (show v c/2 ∈ Icc (v x) (v c) from ⟨by linarith, by linarith⟩)
   have hxy' : x < y := lt_of_le_of_ne hxy.1 (by intro h; rw [← h] at hyv; linarith)
   have hyK : y ∈ K := ⟨⟨hlq.le.trans (hx.1.trans hxy.1),hxy.2⟩,hyv⟩
-  have hyl : y ≤ l := hmax y hyK
+  have hyl : y ≤ l := hmax hyK
   linarith [hx.1]
 
 private theorem small_tail {F : ℝ → ℝ} {q c A : ℝ} (hf : IntegrableOn F (Ioi q))
@@ -88,8 +88,9 @@ private theorem small_tail {F : ℝ → ℝ} {q c A : ℝ} (hf : IntegrableOn F 
   obtain ⟨S,hS,hsmall⟩ := ((eventually_gt_atTop c).and (hl.eventually (gt_mem_nhds hA))).exists
   refine ⟨S,hS,lt_of_le_of_lt ?_ hsmall⟩
   have hb : S ≤ S+1 := by linarith
+  have hNorm : IntegrableOn (fun x => ‖F x‖) (Ioi q) := hf.norm
   have hfS : IntegrableOn (fun x => |F x|) (Ioi S) := by
-    simpa only [Real.norm_eq_abs] using hf.norm.mono_set (Ioi_subset_Ioi (hqc.trans hS.le))
+    simpa only [Real.norm_eq_abs] using hNorm.mono_set (Ioi_subset_Ioi (hqc.trans hS.le))
   calc
     _ ≤ ∫ x in S..S+1, |F x| := intervalIntegral.abs_integral_le_integral_abs hb
     _ = ∫ x in Ioc S (S+1), |F x| := intervalIntegral.integral_of_le hb
@@ -123,7 +124,7 @@ theorem maximum {q : ℝ} {w v P : ℝ → ℝ} (hw : Continuous w) (hpos : ∀ 
       (fun r hr => mul_nonneg (hP r ((hqc'.trans hS).trans_le hr.1)
         (hright r (hS.le.trans hr.1))) (sub_nonneg.mpr hr.2))
     linarith [le_abs_self (∫ r in S..S+1, flux w v r)]
-  · push_neg at hright
+  · push Not at hright
     obtain ⟨d,hcd,hd⟩ := hright
     have hcd' : c < d := lt_of_le_of_ne hcd (by intro h; rw [← h] at hd; linarith)
     obtain ⟨l',hl'd,hl'c,hl'v,hl'p⟩ := select_rise

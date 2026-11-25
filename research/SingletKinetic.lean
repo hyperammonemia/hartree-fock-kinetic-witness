@@ -28,7 +28,7 @@ theorem weak_const (u v : SingletConfiguration → ℂ) (e : SingletConfiguratio
 theorem component_memLp {Ω : Type*} [MeasurableSpace Ω] {μ : Measure Ω}
     {G : Ω → Position} (hG : MemLp G 2 μ) (j : Fin 3) :
     MemLp (fun x => G x j) 2 μ := by
-  exact hG.of_le ((PiLp.continuous_apply _ _ j).comp_aestronglyMeasurable hG.1)
+  exact hG.of_le ((PiLp.continuous_apply _ _ j).comp_aestronglyMeasurable hG.aestronglyMeasurable)
     (ae_of_all _ fun x => PiLp.norm_apply_le (G x) j)
 
 /-- Tensor a spatial wave with the normalized two-spin singlet. -/
@@ -42,7 +42,7 @@ def singletState (Y : SingletConfiguration → ℝ)
   squareIntegrable := fun a b => hY.ofReal.const_mul (singletSpin a b : ℂ)
   gradSquareIntegrable := fun a b i j =>
     (component_memLp (hG i) j).ofReal.const_mul (singletSpin a b : ℂ)
-  weakGradient := fun a b i j => weak_const _ _ _ _ (hw i j)
+  weakGradient := fun a b i j => weak_const _ _ _ (singletSpin a b : ℂ) (hw i j)
 
 private theorem singlet_factor (f : SingletConfiguration → ℝ) (c : ℝ) :
     (∫ x, ‖(c:ℂ)*(f x:ℂ)‖^2) = c^2*(∫ x, f x^2) := by

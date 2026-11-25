@@ -75,7 +75,6 @@ theorem form_expansion {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℂ
     simp only [map_add, map_smul, inner_add_left,inner_add_right,inner_smul_left,inner_smul_right]
     rw [symm d η,z,zz,symm d d,hd]
     simp
-    ring
   have he := congrArg Complex.re hc
   simp only [Complex.add_re, Complex.conj_re] at he
   unfold interaction

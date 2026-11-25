@@ -16,9 +16,12 @@ def firstMarginal (Y : Position × Position → ℝ) (x : Position) := ∫ y, Y 
 theorem fubini_weighted_marginal (h : Position → ℝ) (Y : Position × Position → ℝ)
     (hi : Integrable (fun z : Position × Position => h z.1^2*Y z^2)) :
     (∫ z : Position × Position, h z.1^2*Y z^2) = ∫ x, h x^2*firstMarginal Y x := by
+  change (∫ z : Position × Position, h z.1^2*Y z^2 ∂(volume : Measure Position).prod volume) = _
   rw [integral_prod (fun z : Position × Position => h z.1^2*Y z^2) hi]
   apply integral_congr_ae
-  exact ae_of_all _ fun x => integral_const_mul _ _
+  refine ae_of_all _ fun x => ?_
+  change (∫ y : Position, h x^2*Y (x,y)^2) = h x^2*∫ y : Position, Y (x,y)^2
+  exact integral_const_mul _ (fun y : Position => Y (x,y)^2)
 
 theorem pairProbe_marginal (h : Position → ℝ) (Y : Position × Position → ℝ)
     (hi : Integrable (fun z : Position × Position => h z.1^2*Y z^2))
@@ -40,7 +43,9 @@ theorem marginal_integrable (h : Position → ℝ) (Y : Position × Position →
     Integrable (fun x => h x^2*firstMarginal Y x) := by
   have hy := hi.integral_prod_left
   apply hy.congr
-  exact ae_of_all _ fun x => integral_const_mul _ _
+  refine ae_of_all _ fun x => ?_
+  change (∫ y : Position, h x^2*Y (x,y)^2) = h x^2*∫ y : Position, Y (x,y)^2
+  exact integral_const_mul _ (fun y : Position => Y (x,y)^2)
 
 /-- Evaluate both two-particle probe integrals through the first marginal.
 The Gaussian-shell theorem gives their strict positive finite margin. -/

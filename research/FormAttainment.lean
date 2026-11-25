@@ -13,12 +13,12 @@ noncomputable section
 open Filter
 open scoped Topology
 namespace FormAttainment
-variable {D : Type*} [NormedAddCommGroup D] [NormedSpace ℂ D]
+variable {𝕜 D : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup D] [NormedSpace 𝕜 D]
 
-private theorem tri (p : Seminorm ℂ D) (u v : D) : p (u-v) ≤ p u+p v := by
+private theorem tri (p : Seminorm 𝕜 D) (u v : D) : p (u-v) ≤ p u+p v := by
   simpa only [sub_eq_add_neg, map_neg_eq_map] using map_add_le_add p u (-v)
 
-private theorem approximate_affine (p : Seminorm ℂ D) (L : D →L[ℂ] ℂ)
+private theorem approximate_affine (p : Seminorm 𝕜 D) (L : D →L[𝕜] 𝕜)
     (g : D) (hg : L g = 1) (C : ℝ) (hC : 0 < C)
     (coerc : ∀ w, L w = 0 → ‖w‖ ≤ C*p w)
     (near : ∀ t : ℝ, 0<t → ∃ u : D, ‖u‖=1 ∧ p u<t)
@@ -54,8 +54,8 @@ private theorem approximate_affine (p : Seminorm ℂ D) (L : D →L[ℂ] ℂ)
 /-- A continuous form seminorm that can be arbitrarily small on unit vectors
 vanishes on an actual nonzero vector when it controls the form norm on ker L.
 The proof uses completeness and a single reference mode. -/
-theorem attained_zero [CompleteSpace D] (p : Seminorm ℂ D) (hp : Continuous p)
-    (L : D →L[ℂ] ℂ) (g : D) (hg : L g = 1) (C : ℝ) (hC : 0 < C)
+theorem attained_zero [CompleteSpace D] (p : Seminorm 𝕜 D) (hp : Continuous p)
+    (L : D →L[𝕜] 𝕜) (g : D) (hg : L g = 1) (C : ℝ) (hC : 0 < C)
     (coerc : ∀ w, L w=0 → ‖w‖ ≤ C*p w)
     (near : ∀ t : ℝ, 0<t → ∃ u : D, ‖u‖=1 ∧ p u<t) :
     ∃ w : D, L w=1 ∧ p w=0 := by
@@ -78,7 +78,7 @@ theorem attained_zero [CompleteSpace D] (p : Seminorm ℂ D) (hp : Continuous p)
       (lt_div_iff₀ hden).1 (hN n hn)]
   obtain ⟨w,hw⟩ := cauchySeq_tendsto_of_complete hc
   refine ⟨w, ?_, tendsto_nhds_unique (hp.continuousAt.tendsto.comp hw) lim⟩
-  have hL : Tendsto (fun n => L (v n)) atTop (𝓝 (1:ℂ)) := by simp [hv]
+  have hL : Tendsto (fun n => L (v n)) atTop (𝓝 (1:𝕜)) := by simp [hv]
   exact tendsto_nhds_unique (L.continuous.continuousAt.tendsto.comp hw) hL
 
 #print axioms attained_zero

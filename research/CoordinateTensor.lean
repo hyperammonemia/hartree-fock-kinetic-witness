@@ -9,10 +9,11 @@ variable {X : Type*} [MeasurableSpace X] (μ : Measure X) [SFinite μ]
 
 private theorem product_mem (f g : Lp ℂ 2 μ) :
     MemLp (fun z : X × X => f z.1*g z.2) 2 (μ.prod μ) := by
-  refine (memLp_two_iff_integrable_sq_norm (f.aestronglyMeasurable.comp_fst.mul
-    g.aestronglyMeasurable.comp_snd)).mpr ?_
-  have hf := (memLp_two_iff_integrable_sq_norm f.aestronglyMeasurable).mp (Lp.memLp f)
-  have hg := (memLp_two_iff_integrable_sq_norm g.aestronglyMeasurable).mp (Lp.memLp g)
+  have mf := (Lp.memLp f).aestronglyMeasurable
+  have mg := (Lp.memLp g).aestronglyMeasurable
+  refine (memLp_two_iff_integrable_sq_norm (mf.comp_fst.mul mg.comp_snd)).mpr ?_
+  have hf := (memLp_two_iff_integrable_sq_norm mf).mp (Lp.memLp f)
+  have hg := (memLp_two_iff_integrable_sq_norm mg).mp (Lp.memLp g)
   simpa only [norm_mul,mul_pow] using hf.mul_prod hg
 
 noncomputable def pure (f g : Lp ℂ 2 μ) : Lp ℂ 2 (μ.prod μ) :=
@@ -24,11 +25,11 @@ theorem pure_rep (f g : Lp ℂ 2 μ) :
 
 private theorem at_fst {f g : X → ℂ} (h : f =ᵐ[μ] g) :
     (fun z : X × X => f z.1) =ᵐ[μ.prod μ] (fun z => g z.1) :=
-  h.comp_tendsto quasiMeasurePreserving_fst.tendsto_ae
+  h.comp_tendsto (Measure.quasiMeasurePreserving_fst (μ:=μ) (ν:=μ)).tendsto_ae
 
 private theorem at_snd {f g : X → ℂ} (h : f =ᵐ[μ] g) :
     (fun z : X × X => f z.2) =ᵐ[μ.prod μ] (fun z => g z.2) :=
-  h.comp_tendsto quasiMeasurePreserving_snd.tendsto_ae
+  h.comp_tendsto (Measure.quasiMeasurePreserving_snd (μ:=μ) (ν:=μ)).tendsto_ae
 
 noncomputable def productBilinear : Lp ℂ 2 μ →ₗ[ℂ] Lp ℂ 2 μ →ₗ[ℂ] Lp ℂ 2 (μ.prod μ) :=
   LinearMap.mk₂ ℂ (pure μ)
@@ -37,18 +38,18 @@ noncomputable def productBilinear : Lp ℂ 2 μ →ₗ[ℂ] Lp ℂ 2 μ →ₗ[�
       filter_upwards [pure_rep μ (f+f') g, at_fst μ (Lp.coeFn_add f f'),
         Lp.coeFn_add (pure μ f g) (pure μ f' g), pure_rep μ f g, pure_rep μ f' g]
         with z h0 h1 h2 h3 h4
-      simpa only [Pi.add_apply,h0,h1,h2,h3,h4,add_mul])
+      simp only [Pi.add_apply,h0,h1,h2,h3,h4,add_mul])
     (fun c f g => by
       apply Lp.ext
       filter_upwards [pure_rep μ (c • f) g, at_fst μ (Lp.coeFn_smul c f),
         Lp.coeFn_smul c (pure μ f g),pure_rep μ f g] with z h0 h1 h2 h3
-      simpa only [Pi.smul_apply,smul_eq_mul,h0,h1,h2,h3,mul_assoc])
+      simp only [Pi.smul_apply,smul_eq_mul,h0,h1,h2,h3,mul_assoc])
     (fun f g g' => by
       apply Lp.ext
       filter_upwards [pure_rep μ f (g+g'), at_snd μ (Lp.coeFn_add g g'),
         Lp.coeFn_add (pure μ f g) (pure μ f g'), pure_rep μ f g, pure_rep μ f g']
         with z h0 h1 h2 h3 h4
-      simpa only [Pi.add_apply,h0,h1,h2,h3,h4,mul_add])
+      simp only [Pi.add_apply,h0,h1,h2,h3,h4,mul_add])
     (fun c f g => by
       apply Lp.ext
       filter_upwards [pure_rep μ f (c • g), at_snd μ (Lp.coeFn_smul c g),

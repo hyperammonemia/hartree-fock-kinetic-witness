@@ -15,7 +15,7 @@ def I (n : ℕ) := ∫ r in Ioi (0:ℝ), r^n * Real.exp (-(1/2:ℝ)*r^2)
 theorem gamma_value (n : ℕ) :
     I n = (1/2:ℝ)^(-((n:ℝ)+1)/2)*(1/2)*Real.Gamma (((n:ℝ)+1)/2) := by
   have h := integral_rpow_mul_exp_neg_mul_rpow (p:=2) (q:=(n:ℝ)) (b:=1/2)
-    (by norm_num) (by positivity) (by norm_num)
+    (by norm_num) (by linarith [Nat.cast_nonneg (α:=ℝ) n]) (by norm_num)
   simpa [I, Real.rpow_natCast] using h
 
 theorem recurrence (n : ℕ) : I (n+2) = ((n:ℝ)+1)*I n := by
@@ -47,7 +47,7 @@ theorem ordinary_value (k : ℕ) : ordinary k = 4*Real.pi*I (2*k+2) := by
   congr 1
   apply integral_congr_ae
   filter_upwards with r
-  simp [pow_add, mul_comm, mul_left_comm, mul_assoc]
+  simp [pow_add, mul_comm, mul_assoc]
 
 theorem weighted_value (k : ℕ) : weighted k = 4*Real.pi*I (2*k+1) := by
   unfold weighted
@@ -56,7 +56,7 @@ theorem weighted_value (k : ℕ) : weighted k = 4*Real.pi*I (2*k+1) := by
   apply setIntegral_congr_fun measurableSet_Ioi
   intro r hr
   have hp : r ≠ 0 := (mem_Ioi.mp hr).ne'
-  simp [I,pow_add]
+  simp [pow_add]
   field_simp
 
 theorem ordinary_step (k : ℕ) : ordinary (k+1) = (2*k+3:ℝ)*ordinary k := by

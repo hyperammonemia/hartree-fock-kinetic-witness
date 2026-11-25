@@ -15,11 +15,19 @@ def profile (r t : ℝ) := Real.exp (-((r * compress t)^2)) * jac t
 theorem derivative (t : ℝ) : HasDerivAt compress (jac t) t := by
   have hp : 0 < 1+t^2 := by positivity
   have hs := Real.sqrt_pos.2 hp
-  have hd := (((hasDerivAt_id t).pow 2).const_add 1).sqrt hp.ne'
+  let s := Real.sqrt (1+t^2)
+  have hd : HasDerivAt (fun y : ℝ => Real.sqrt (1+y^2)) (t/s) t := by
+    convert (((hasDerivAt_id t).pow 2).const_add 1).sqrt hp.ne' using 1
+    change t/s = (2*t^(2-1:ℕ)*1)/(2*s)
+    ring
+  have eq : s*s-t^2=1 := by
+    have h : s^2=1+t^2 := Real.sq_sqrt hp.le
+    nlinarith
   convert (hasDerivAt_id t).div hd hs.ne' using 1
-  dsimp [jac]
-  field_simp [hs.ne']
-  nlinarith [Real.sq_sqrt hp.le]
+  change 1/s^3=(1*s-t*(t/s))/s^2
+  calc
+    _ = (s*s-t^2)/s^3 := by rw [eq]
+    _ = _ := by field_simp [show s ≠ 0 from hs.ne']; ring
 
 theorem limit : Tendsto compress atTop (𝓝 1) := by
   have ht : Tendsto (fun t : ℝ => t⁻¹) atTop (𝓝 0) := tendsto_inv_atTop_zero
