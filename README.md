@@ -12,6 +12,8 @@ The example has two electrons interacting by $1/|x-y|$. Its fixed confining exte
 
 The parameters are specified symbolically and held finite. At the given scale, direct floating-point simulation cannot resolve the shell probability or oscillation frequency. The derivation instead gives strict estimates with an explicit positive margin. [Construction and estimates](continuum-witness.md)
 
+The removal-energy estimate also follows from the ordinary oscillator gap on the full one-electron space. A quartic double excitation strengthens the two-electron trial sufficiently to recover the same strict bound. A second exterior proof estimates the spherical average of the squared density by testing the six-dimensional eigenfunction with compact radial multipliers. The radial kinetic probe measures exactly that spherical average. [Quartic trial and exact matrices](fourth-order-trial.md) · [Squared-density comparison](squared-marginal-flux.md)
+
 A second pass by the constructor examines normalization, the exterior boundary term and general complex spin orbitals. It includes a Lean proof of the normalization bound for distinct probability and energy measures. [Detailed checks](radial-audit.md) · [Normalization theorem](supplement/RayleighReweighting.lean)
 
 ## What Lean checks

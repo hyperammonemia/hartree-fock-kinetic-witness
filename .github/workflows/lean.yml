@@ -32,6 +32,10 @@ jobs:
           use-mathlib-cache: 'false'
       - name: Fetch the pinned mathlib imports
         run: python3 tools/fetch_cache.py
+      - name: Cross-check the Gaussian trial in both coordinate systems
+        run: |
+          python3 tools/trial_moments.py
+          python3 tools/cartesian_trial.py
       - name: Check the baseline and continuum declarations
         run: |
           python3 tools/check_lean.py
