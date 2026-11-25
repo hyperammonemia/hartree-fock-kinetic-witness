@@ -1,0 +1,65 @@
+{
+  "model": [
+    "ContinuumHamiltonian",
+    "CoulombSubstitution",
+    "FormAttainment",
+    "FourthTrial",
+    "GaussianCoulomb",
+    "GaussianRadialMoments",
+    "GroundSymmetry",
+    "NewtonField",
+    "NewtonGaussian",
+    "NewtonPerturbation",
+    "RadialProbe",
+    "WeakGradient",
+    "WeakProduct"
+  ],
+  "kinetic": [
+    "CutoffDerivative",
+    "DilationWeak",
+    "FiniteKinetic",
+    "FixedKinetic",
+    "KineticDilation",
+    "ModulatedWeak",
+    "PhysicalGradient",
+    "ProbeStability",
+    "RadialDifferential",
+    "SingletKinetic",
+    "StateKineticOrder",
+    "WeightNormalization"
+  ],
+  "slater": [
+    "CoordinateSlater",
+    "CoordinateTensor",
+    "CoulombBounds",
+    "CoulombCentering",
+    "GaussianCore",
+    "GaussianTensor",
+    "SlaterConclusion",
+    "SlaterEnergy",
+    "SlaterFormDomain",
+    "SlaterGeometry",
+    "SlaterOccupation",
+    "SpinSum",
+    "WeightedGap"
+  ],
+  "pde": [
+    "ExteriorTail",
+    "FiberKato",
+    "FluxHats",
+    "FluxTests",
+    "GaussianFlux",
+    "HardyRay",
+    "MarginalWeak",
+    "RadialBarrier",
+    "WeakRadial"
+  ],
+  "t3": [
+    "FixedRadialDomain",
+    "FixedRadialSectionFive",
+    "PullbackIntegrals",
+    "RadialConfiguration",
+    "SectionFive",
+    "UnitVariational"
+  ]
+}

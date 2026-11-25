@@ -1,0 +1,32 @@
+name: Check proof-development sources
+on:
+  push:
+    branches: [proof-development]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [model, kinetic, slater, pde, t3]
+    env:
+      LEAN_NUM_THREADS: '2'
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@498ce7030982ff0e0cecd98a8f5a7c90615b4e41
+        with:
+          auto-config: 'false'
+          use-github-cache: 'false'
+          use-mathlib-cache: 'false'
+      - run: python3 .github/scripts/check_research.py ${{ matrix.group }} --fetch
+      - run: lake build HFNotes
+      - run: lake env python3 .github/scripts/check_research.py ${{ matrix.group }}
