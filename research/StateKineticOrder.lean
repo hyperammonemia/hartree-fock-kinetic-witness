@@ -39,7 +39,9 @@ theorem kinetic_order_of_density_distance
     (weighted_probe_integrable R hR) (fun i => ae_of_all _ (sineProfile_abs i))
   have hu := abs_le.mp (physical_kinetic_remainder U dU hU mU hdu gU)
   have hv := abs_le.mp (physical_kinetic_remainder P dP hP mP hdp gP)
-  apply sign_at_fixed_parameters _ _ _ _ _ density
+  apply sign_at_fixed_parameters (kinetic configMeasure (physicalGradient U dU))
+    (kinetic configMeasure (physicalGradient P dP)) (probe configMeasure U sineProfile)
+    (probe configMeasure R sineProfile) (probe configMeasure P sineProfile) density
   · linarith [(abs_le.mp dist).2]
   · linarith [hu.1, amplitude_pos]
   · linarith [hv.2, amplitude_pos]

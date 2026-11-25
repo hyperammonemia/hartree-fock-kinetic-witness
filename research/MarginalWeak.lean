@@ -2,6 +2,7 @@ import FiberKato
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
 import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
+import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
 import Mathlib.MeasureTheory.Function.L2Space
 import Mathlib.MeasureTheory.Integral.Prod
 
@@ -30,7 +31,7 @@ theorem waveFiber_rep {ψ : MarginalPosition × MarginalPosition → ℝ}
   classical
   filter_upwards [hψ.aestronglyMeasurable.prodMk_left, hψ.integrable_sq.prod_right_ae] with x hm hi
   have hx := (memLp_two_iff_integrable_sq hm).mpr hi
-  simp only [waveFiber, dif_pos hx]
+  simp only [waveFiber, hx, ↓reduceDIte]
   exact hx.coeFn_toLp
 
 theorem waveFiber_marginal {ψ : MarginalPosition × MarginalPosition → ℝ}

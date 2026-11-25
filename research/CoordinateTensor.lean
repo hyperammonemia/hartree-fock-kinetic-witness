@@ -14,6 +14,7 @@ private theorem product_mem (f g : Lp ℂ 2 μ) :
   refine (memLp_two_iff_integrable_sq_norm (mf.comp_fst.mul mg.comp_snd)).mpr ?_
   have hf := (memLp_two_iff_integrable_sq_norm mf).mp (Lp.memLp f)
   have hg := (memLp_two_iff_integrable_sq_norm mg).mp (Lp.memLp g)
+  change Integrable (fun z : X × X => ‖f z.1*g z.2‖^2) (μ.prod μ)
   simpa only [norm_mul,mul_pow] using hf.mul_prod hg
 
 noncomputable def pure (f g : Lp ℂ 2 μ) : Lp ℂ 2 (μ.prod μ) :=
@@ -23,10 +24,12 @@ theorem pure_rep (f g : Lp ℂ 2 μ) :
     (pure μ f g : X × X → ℂ) =ᵐ[μ.prod μ] (fun z => f z.1*g z.2) :=
   (product_mem μ f g).coeFn_toLp
 
+omit [SFinite μ] in
 private theorem at_fst {f g : X → ℂ} (h : f =ᵐ[μ] g) :
     (fun z : X × X => f z.1) =ᵐ[μ.prod μ] (fun z => g z.1) :=
   h.comp_tendsto (Measure.quasiMeasurePreserving_fst (μ:=μ) (ν:=μ)).tendsto_ae
 
+omit [SFinite μ] in
 private theorem at_snd {f g : X → ℂ} (h : f =ᵐ[μ] g) :
     (fun z : X × X => f z.2) =ᵐ[μ.prod μ] (fun z => g z.2) :=
   h.comp_tendsto (Measure.quasiMeasurePreserving_snd (μ:=μ) (ν:=μ)).tendsto_ae

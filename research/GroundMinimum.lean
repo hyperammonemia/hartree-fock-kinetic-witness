@@ -39,7 +39,7 @@ theorem ground_state (J : D →L[ℝ] H) (inj : Function.Injective J) (mass : �
     have hpu : p u<t := by have h := form u; rw [hu] at h; nlinarith
     have hnorm : 0<‖u‖ := lt_of_lt_of_le zero_lt_one hn
     refine ⟨‖u‖⁻¹ • u,?_,?_⟩
-    · simp [norm_smul,Real.norm_eq_abs,abs_of_pos hnorm,hnorm.ne']
+    · simp [norm_smul,hnorm.ne']
     · rw [map_smul_eq_mul, Real.norm_eq_abs, abs_inv, abs_of_pos hnorm, ← div_eq_inv_mul]
       apply (div_lt_iff₀ hnorm).2
       exact hpu.trans_le (by simpa using mul_le_mul_of_nonneg_left hn ht.le)
@@ -47,10 +47,10 @@ theorem ground_state (J : D →L[ℝ] H) (inj : Function.Injective J) (mass : �
   have hju : J u ≠ 0 := by
     intro h
     have hu0 := inj (h.trans J.map_zero.symm)
-    simpa [hu0] using hu
+    simp [hu0] at hu
   have hpos : 0<‖J u‖ := norm_pos_iff.mpr hju
   let w : D := ‖J u‖⁻¹ • u
-  have hw : ‖J w‖=1 := by simp [w,norm_smul,Real.norm_eq_abs,abs_of_pos hpos,hpos.ne']
+  have hw : ‖J w‖=1 := by simp [w,norm_smul,hpos.ne']
   have hp : p w=0 := by simp [w,map_smul_eq_mul,hzero]
   have e : q w=E := by have h := form w; rw [hp,hw] at h; linarith
   refine ⟨w,hw,e,?_⟩

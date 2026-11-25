@@ -48,7 +48,6 @@ theorem densityBarrier_hasDerivAt {q α r : ℝ} (hr : 0 < r) :
     apply ((hasDerivAt_const r (q^2+3/2*Real.log Real.pi)).add
       (((hasDerivAt_const r (Real.log q)).sub (Real.hasDerivAt_log hr.ne')).const_mul (2*α))).congr_deriv
     simp [div_eq_mul_inv]
-    <;> ring
   apply hl.exp.congr_deriv
   exact mul_comm _ _
 
@@ -57,7 +56,6 @@ private theorem gaussianExp_deriv (r : ℝ) :
   have hd : HasDerivAt (fun t : ℝ => -t^2) (-2*r) r := by
     apply (((hasDerivAt_id r).pow 2).neg).congr_deriv
     simp
-    <;> ring
   exact hd.exp.congr_deriv (mul_comm _ _)
 
 theorem density_flux_deriv {q α r : ℝ} (hr : 0 < r) :
@@ -70,15 +68,16 @@ theorem density_flux_deriv {q α r : ℝ} (hr : 0 < r) :
     rw [(densityBarrier_hasDerivAt ht).deriv]
     dsimp [flux,radialJacobian]
     field_simp [(show 0 < t from ht).ne']
-    <;> ring
+    ring
   rw [hnear.deriv_eq]
   have h := ((((hasDerivAt_id r).const_mul (-(2*α))).mul (gaussianExp_deriv r)).mul
     (densityBarrier_hasDerivAt (q := q) (α := α) hr))
+  simp only [Pi.mul_def,id_eq] at h
   change deriv (fun t => (-(2*α))*t*Real.exp (-t^2)*densityBarrier q α t) r = _
   rw [h.deriv]
   dsimp [radialJacobian]
   field_simp [hr.ne']
-  <;> ring
+  ring
 
 theorem density_flux_supersolution {q α r V : ℝ} (hr : 0 < r) (hα : 0 ≤ α)
     (hα1 : 2*α ≤ 1) (hV : α ≤ V) :

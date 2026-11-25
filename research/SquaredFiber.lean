@@ -56,6 +56,7 @@ def densityScale : ℝ := Real.exp (3/2*Real.log Real.pi)
 def squaredGaussianRatio (U : ℝ → E) (r : ℝ) : ℝ :=
   densityScale*Real.exp (r^2)*‖U r‖^2
 
+omit [InnerProductSpace ℝ E] in
 theorem squaredGaussianRatio_eq (U : ℝ → E) (r : ℝ) :
     squaredGaussianRatio U r = ‖U r‖^2 / gaussianRadial r ^ 2 := by
   apply (eq_div_iff (sq_ne_zero _ (Real.exp_pos _).ne')).mpr
@@ -78,11 +79,12 @@ theorem transformed_squared_flux {U : ℝ → E} {du : E} {r : ℝ} (hU : HasDer
     simpa using (hasDerivAt_id r).pow 2
   have he : HasDerivAt (fun t : ℝ => Real.exp (t^2)) (Real.exp (r^2)*(2*r)) r := hsq.exp
   have hd := (he.const_mul densityScale).mul hU.norm_sq
+  simp only [Pi.mul_def] at hd
   change radialJacobian r * deriv (fun t => densityScale*Real.exp (t^2)*‖U t‖^2) r = _
   rw [hd.deriv,hU.norm_sq.deriv]
   simp only [radialJacobian,Real.exp_neg]
   field_simp [(Real.exp_pos (r^2)).ne']
-  <;> ring
+  ring
 
 theorem transformed_squared_flux_integrable {q : ℝ} (U dU : ℝ → E)
     (hU : ∀ᵐ r ∂volume.restrict (Ioi q), HasDerivAt U (dU r) r)

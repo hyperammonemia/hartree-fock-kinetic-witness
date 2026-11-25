@@ -46,7 +46,10 @@ theorem physical_weak_derivative (μ : Measure DilationConfig) [IsAddHaarMeasure
         l*(∫ x, Y x*fderiv ℝ φ (l • x) v ∂μ) := by
     rw [← integral_const_mul]
     apply integral_congr_ae
-    exact ae_of_all _ (fun x => by rw [dilated_derivative_test φ hφ]; ring)
+    refine ae_of_all _ fun x => ?_
+    change Y x * fderiv ℝ (fun q => φ (l • q)) x v = l * (Y x * fderiv ℝ φ (l • x) v)
+    rw [dilated_derivative_test (l := l) φ hφ x v]
+    ring
   rw [test_pair] at hw
   rw [dilated_pairing μ hl 3 Y (fun x => fderiv ℝ φ x v), dilated_pairing μ hl 4 dY φ]
   have c3 : l⁻¹^3*l^6 = l^3 := by field_simp [hl.ne'] <;> ring

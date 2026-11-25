@@ -44,7 +44,7 @@ private theorem const_piece (a b : ℝ) : Piece a b (fun _ => 1) (fun _ => 0) wh
   nonneg := fun _ _ => zero_le_one
 
 private theorem unit_fall (S : ℝ) : Piece S (S+1) (fun r => S+1-r) (fun _ => -1) where
-  deriv r := by simpa using (hasDerivAt_const r (S+1)).sub (hasDerivAt_id r)
+  deriv r := (hasDerivAt_id r).const_sub (S+1)
   continuousDeriv := continuous_const
   nonneg := fun _ hr => sub_nonneg.mpr hr.2
 
