@@ -87,11 +87,8 @@ def main():
     print(f"::notice title=Module status::{escape(result)}",flush=True)
     # GitHub limits the number of displayed annotations per step. Group the
     # diagnostics so early errors cannot hide every subsequent proof file.
-    for i in range(0,len(reports),2):
-        batch = reports[i:i+2]
-        names = ", ".join(item[0] for item in batch)
-        body = "\n\n".join(item[0]+"\n"+item[1][:22000] for item in batch)
-        print(f"::error title={names}::{escape(body)}",flush=True)
+    for name, diagnostics in reports:
+        print(f"::error title={name}::{escape(diagnostics[:3800])}",flush=True)
     if os.getenv("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"],"a") as f:
             f.write(result)

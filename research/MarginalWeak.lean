@@ -60,7 +60,7 @@ def coulombFiber (x : MarginalPosition) (u : PhysicalFiber) : ℝ :=
   ∫ y, (u y)^2 / ‖x-y‖
 
 theorem coulombFiber_nonneg (x : MarginalPosition) (u : PhysicalFiber) : 0 ≤ coulombFiber x u :=
-  integral_nonneg (fun y => div_nonneg (sq_nonneg _) (norm_nonneg _))
+  integral_nonneg (fun _ => div_nonneg (sq_nonneg _) (norm_nonneg _))
 
 theorem coulombFiber_congr_off_diagonal (x : MarginalPosition) (u : PhysicalFiber)
     (w : MarginalPosition → ℝ) (hw : ∀ y, y ≠ x → w y = ‖x-y‖⁻¹) :
@@ -125,6 +125,7 @@ def scalarPair (ε : ℝ) (U : MarginalPosition → E) (η : MarginalPosition �
   (∑ j : Fin 3, deriv (coordLine (fun y => fiberLength ε (U y)) j x) 0 *
     deriv (coordLine η j x) 0) / 2
 
+omit [InnerProductSpace ℝ E] in
 theorem regularized_pairing_by_parts (ε : ℝ) (U : MarginalPosition → E) (η : MarginalPosition → ℝ)
     (hweak : ∀ j, coordinateWeakDerivative (fun x => fiberLength ε (U x))
       (testSlope (fun x => fiberLength ε (U x)) j) j)
@@ -189,6 +190,7 @@ theorem integrated_fiber_comparison {ε e₁ e₂ : ℝ} (he : 0 < ε)
         ((V x+(e₁-e₂))*‖U x‖^2) := by ring
     _ ≤ _ := add_le_add hp (mul_le_mul_of_nonneg_left hE hc)
 
+omit [InnerProductSpace ℝ E] in
 private theorem regularization_errors {ε : ℝ} (he : 0 < ε) (u : E) :
     |‖u‖ - fiberLength ε u| ≤ ε ∧
     |‖u‖ - ‖u‖^2 / fiberLength ε u| ≤ ε := by
@@ -202,7 +204,7 @@ private theorem regularization_errors {ε : ℝ} (he : 0 < ε) (u : E) :
   have ht : 0 ≤ ‖u‖/fiberLength ε u := div_nonneg hn hp.le
   have ht1 : ‖u‖/fiberLength ε u ≤ 1 := (div_le_one hp).mpr ha
   have hident : ‖u‖-‖u‖^2/fiberLength ε u =
-      (‖u‖/fiberLength ε u)*(fiberLength ε u-‖u‖) := by field_simp [hp.ne']; ring
+      (‖u‖/fiberLength ε u)*(fiberLength ε u-‖u‖) := by field_simp [hp.ne']
   constructor
   · rw [abs_of_nonpos (sub_nonpos.mpr ha)]
     linarith
@@ -214,6 +216,7 @@ private theorem regularization_errors {ε : ℝ} (he : 0 < ε) (u : E) :
 /-- After applying the weak derivative identity to the compact smooth scalar test,
 take ε to zero. For that application A is minus half the Laplacian of the test and
 B is the test times the exterior potential. Both error terms are bounded by ε. -/
+omit [InnerProductSpace ℝ E] in
 theorem remove_fiber_regularization (U : MarginalPosition → E) (A B : MarginalPosition → ℝ)
     (hc : Integrable (fun x => |A x|+|B x|))
     (hi : Integrable (fun x => (A x+B x)*‖U x‖))
@@ -224,7 +227,7 @@ theorem remove_fiber_regularization (U : MarginalPosition → E) (A B : Marginal
     (∫ x, (A x+B x)*‖U x‖) ≤ 0 := by
   let K : ℝ := ∫ x, |A x|+|B x|
   let L : ℝ := ∫ x, (A x+B x)*‖U x‖
-  have hK : 0 ≤ K := integral_nonneg (fun x => add_nonneg (abs_nonneg _) (abs_nonneg _))
+  have hK : 0 ≤ K := integral_nonneg (fun _ => add_nonneg (abs_nonneg _) (abs_nonneg _))
   have hbound (ε : ℝ) (he : 0 < ε) : L ≤ ε*K := by
     let S := fun x => A x * fiberLength ε (U x) + B x * (‖U x‖^2 / fiberLength ε (U x))
     let C := fun x => ε*(|A x|+|B x|)
@@ -232,11 +235,11 @@ theorem remove_fiber_regularization (U : MarginalPosition → E) (A B : Marginal
       obtain ⟨h₁,h₂⟩ := regularization_errors he (U x)
       have hA := calc
         A x*(‖U x‖-fiberLength ε (U x)) ≤ |A x*(‖U x‖-fiberLength ε (U x))| := le_abs_self _
-        _ ≤ |A x|*ε := by rw [abs_mul]; exact mul_le_mul_of_nonneg_left h₁ (abs_nonneg _)
+        _ ≤ |A x| * ε := by rw [abs_mul]; exact mul_le_mul_of_nonneg_left h₁ (abs_nonneg _)
       have hB := calc
         B x*(‖U x‖-‖U x‖^2/fiberLength ε (U x)) ≤ |B x*(‖U x‖-‖U x‖^2/fiberLength ε (U x))| :=
           le_abs_self _
-        _ ≤ |B x|*ε := by rw [abs_mul]; exact mul_le_mul_of_nonneg_left h₂ (abs_nonneg _)
+        _ ≤ |B x| * ε := by rw [abs_mul]; exact mul_le_mul_of_nonneg_left h₂ (abs_nonneg _)
       dsimp only [S,C]
       linarith
     have hiS : Integrable S := hreg ε he
@@ -258,7 +261,7 @@ theorem remove_fiber_regularization (U : MarginalPosition → E) (A B : Marginal
 /-- Slicing, form integrability, and the vector-valued eigenvalue equation for the
 specific admissible test η Ψ / sqrt(s²+ε²). Each entry has a mathematical meaning
 before deriving the scalar distributional inequality. -/
-structure AdmissibleMarginalTest (ε e₁ e₂ λ : ℝ) (U : MarginalPosition → PhysicalFiber)
+structure AdmissibleMarginalTest (ε e₁ e₂ coupling : ℝ) (U : MarginalPosition → PhysicalFiber)
     (dy : MarginalPosition → Fin 3 → MarginalPosition → ℝ) (V η : MarginalPosition → ℝ) : Prop where
   weakSlope : ∀ j, coordinateWeakDerivative (fun x => fiberLength ε (U x))
     (testSlope (fun x => fiberLength ε (U x)) j) j
@@ -268,14 +271,14 @@ structure AdmissibleMarginalTest (ε e₁ e₂ λ : ℝ) (U : MarginalPosition �
   laplaceInt : Integrable (fun x => (-testLaplacian η x/2)*fiberLength ε (U x))
   sourceInt : Integrable (fun x => (V x+(e₁-e₂))*η x*(‖U x‖^2/fiberLength ε (U x)))
   vectorInt : Integrable (fun x => vectorPair ε U η x + (η x/fiberLength ε (U x))*
-    ((V x-e₂)*‖U x‖^2 + oneBodyFiber V (U x) (dy x) + λ*coulombFiber x (U x)))
+    ((V x-e₂)*‖U x‖^2 + oneBodyFiber V (U x) (dy x) + coupling*coulombFiber x (U x)))
   vectorEuler : (∫ x, vectorPair ε U η x + (η x/fiberLength ε (U x))*
-    ((V x-e₂)*‖U x‖^2 + oneBodyFiber V (U x) (dy x) + λ*coulombFiber x (U x))) = 0
+    ((V x-e₂)*‖U x‖^2 + oneBodyFiber V (U x) (dy x) + coupling*coulombFiber x (U x))) = 0
 
 /-- The scalar distributional inequality for the physical L²(R³) marginal, with the
 actual Coulomb kernel. The surviving PDE assumptions explicitly identify the variational
 domain on y-fibers and the admissibility of the normalized vector tests. -/
-theorem physical_marginal_distribution (e₁ e₂ λ : ℝ) (hλ : 0 ≤ λ)
+theorem physical_marginal_distribution (e₁ e₂ coupling : ℝ) (hcoupling : 0 ≤ coupling)
     (U : MarginalPosition → PhysicalFiber) (dy : MarginalPosition → Fin 3 → MarginalPosition → ℝ)
     (V η : MarginalPosition → ℝ) (dom : PhysicalFiber → (Fin 3 → MarginalPosition → ℝ) → Prop)
     (hRayleigh : ∀ u v, dom u v → e₁*(∫ y, (u y)^2) ≤ oneBodyFiber V u v)
@@ -286,7 +289,7 @@ theorem physical_marginal_distribution (e₁ e₂ λ : ℝ) (hλ : 0 ≤ λ)
     (hn : ∀ᵐ x, 0 ≤ η x)
     (hc : Integrable (fun x => |(-testLaplacian η x/2)|+|(V x+(e₁-e₂))*η x|))
     (hi : Integrable (fun x => (-testLaplacian η x/2+(V x+(e₁-e₂))*η x)*‖U x‖))
-    (h : ∀ ε : ℝ, 0 < ε → AdmissibleMarginalTest ε e₁ e₂ λ U dy V η) :
+    (h : ∀ ε : ℝ, 0 < ε → AdmissibleMarginalTest ε e₁ e₂ coupling U dy V η) :
     (∫ x, (-testLaplacian η x/2 + (V x+(e₁-e₂))*η x)*‖U x‖) ≤ 0 := by
   apply remove_fiber_regularization U (fun x => -testLaplacian η x/2)
     (fun x => (V x+(e₁-e₂))*η x) hc hi
@@ -295,10 +298,10 @@ theorem physical_marginal_distribution (e₁ e₂ λ : ℝ) (hλ : 0 ≤ λ)
   intro ε he
   have hd := h ε he
   have hy := residual_fiber_lower V e₁ dom hRayleigh U dy hdom
-  have hW : ∀ᵐ x, 0 ≤ λ*coulombFiber x (U x) :=
-    Filter.Eventually.of_forall (fun x => mul_nonneg hλ (coulombFiber_nonneg x _))
+  have hW : ∀ᵐ x, 0 ≤ coupling*coulombFiber x (U x) :=
+    Filter.Eventually.of_forall (fun x => mul_nonneg hcoupling (coulombFiber_nonneg x _))
   have hb := integrated_fiber_comparison he U η V (fun x => oneBodyFiber V (U x) (dy x))
-    (fun x => λ*coulombFiber x (U x)) hU hη hn hy hW (hd.scalarInt.add hd.sourceInt)
+    (fun x => coupling*coulombFiber x (U x)) hU hη hn hy hW (hd.scalarInt.add hd.sourceInt)
     hd.vectorInt hd.vectorEuler
   rw [integral_add hd.scalarInt hd.sourceInt,
     regularized_pairing_by_parts ε U η hd.weakSlope hφ hd.slopeInt hd.hessianInt] at hb

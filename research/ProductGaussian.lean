@@ -40,10 +40,12 @@ noncomputable def fstIso : Lp ℂ 2 μ →ₗᵢ[ℂ] Lp ℂ 2 (μ.prod ν) :=
 noncomputable def sndIso : Lp ℂ 2 ν →ₗᵢ[ℂ] Lp ℂ 2 (μ.prod ν) :=
   Lp.compMeasurePreservingₗᵢ ℂ Prod.snd measurePreserving_snd
 
+omit [IsProbabilityMeasure μ] in
 private theorem first_rep (f : Lp ℂ 2 μ) :
     (fstIso μ ν f : X × Y → ℂ) =ᵐ[μ.prod ν] (fun p => f p.1) :=
   Lp.coeFn_compMeasurePreserving f measurePreserving_fst
 
+omit [IsProbabilityMeasure ν] in
 private theorem second_rep (g : Lp ℂ 2 ν) :
     (sndIso μ ν g : X × Y → ℂ) =ᵐ[μ.prod ν] (fun p => g p.2) :=
   Lp.coeFn_compMeasurePreserving g measurePreserving_snd

@@ -1,11 +1,36 @@
 import ModulatedWeak
 import StateKineticOrder
 import SingletKinetic
+import MarginalProbe
 
 open MeasureTheory FinitePotential
 open scoped BigOperators
 namespace HFKinetic
 noncomputable section
+
+theorem pairProbe_eq_kinetic_probe (Y : Configuration → ℝ) :
+    pairProbe densitySine Y = probe configMeasure Y sineProfile := by
+  have h0 : sineProfile 0 = (fun x : Configuration => densitySine x.1) := by
+    funext x
+    simp [sineProfile,position,densitySine]
+  have h1 : sineProfile 1 = (fun x : Configuration => densitySine x.2) := by
+    funext x
+    simp [sineProfile,position,densitySine]
+  unfold pairProbe probe
+  rw [Fin.sum_univ_two,h0,h1]
+
+theorem kinetic_probe_margin_of_tail (U R : Configuration → ℝ) (s : ℝ → ℝ)
+    (uI : Integrable (fun z : Configuration => densitySine z.1^2*U z^2))
+    (rI : Integrable (fun z : Configuration => densitySine z.1^2*R z^2))
+    (uSym : ∀ᵐ z : Configuration, U z.swap^2 = U z^2)
+    (rSym : ∀ᵐ z : Configuration, R z.swap^2 = R z^2)
+    (uMarg : ∀ᵐ x : Position, firstMarginal U x = RadialProbe.gaussianSq ‖x‖)
+    (rMarg : ∀ᵐ x : Position, firstMarginal R x = s ‖x‖^2)
+    (rInt : Integrable (RadialProbe.integrand s))
+    (tail : ∀ᵐ r : ℝ, radius ≤ r → r ≤ radius+3 → s r^2 ≤ RadialProbe.gaussianSq r/4) :
+    margin ≤ probe configMeasure U sineProfile - probe configMeasure R sineProfile := by
+  rw [← pairProbe_eq_kinetic_probe U,← pairProbe_eq_kinetic_probe R]
+  exact actual_pair_probe_margin U R s uI rI uSym rSym uMarg rMarg rInt tail
 
 /-- The field belongs to the domain of the physical spin Hamiltonian before
 multiplication by the fixed radial weight. -/
@@ -52,6 +77,7 @@ theorem physicalSinglet_kinetic_order
   exact kinetic_order_of_density_distance U R P dU dP hU hR hP mU mR mP hdu hdp gU gP distance density
 
 #print axioms normalizedPhysicalSinglet_mass
+#print axioms kinetic_probe_margin_of_tail
 #print axioms physicalSinglet_kinetic_order
 end
 end HFKinetic

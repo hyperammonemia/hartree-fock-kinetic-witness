@@ -29,7 +29,7 @@ theorem derivative (t : ℝ) : HasDerivAt compress (jac t) t := by
   · change 1/s^3=(1*s-t*(t/s))/s^2
     calc
       _ = (s*s-t^2)/s^3 := by rw [eq]
-      _ = _ := by field_simp [show s ≠ 0 from hs.ne']; ring
+      _ = _ := by field_simp [show s ≠ 0 from hs.ne']
 
 theorem limit : Tendsto compress atTop (𝓝 1) := by
   have ht : Tendsto (fun t : ℝ => t⁻¹) atTop (𝓝 0) := tendsto_inv_atTop_zero

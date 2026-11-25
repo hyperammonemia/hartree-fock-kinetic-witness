@@ -32,7 +32,7 @@ theorem normalizedWave_tensor (u : Position → ℝ) :
   unfold normalizedWave
   rw [stateNorm_tensor]
   unfold tensorSquare normalizedOrbital stepWeight
-  simp only [div_eq_mul_inv,inv_pow]
+  simp only [div_eq_mul_inv]
   ring
 
 /-- The exact spin factors in the continuum determinant agree with the two-component singlet. -/

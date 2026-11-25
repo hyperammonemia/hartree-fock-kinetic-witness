@@ -68,7 +68,6 @@ theorem density_flux_deriv {q α r : ℝ} (hr : 0 < r) :
     rw [(densityBarrier_hasDerivAt ht).deriv]
     dsimp [flux,radialJacobian]
     field_simp [(show 0 < t from ht).ne']
-    ring
   rw [hnear.deriv_eq]
   have h := ((((hasDerivAt_id r).const_mul (-(2*α))).mul (gaussianExp_deriv r)).mul
     (densityBarrier_hasDerivAt (q := q) (α := α) hr))

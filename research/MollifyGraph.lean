@@ -1,6 +1,8 @@
 import RadialConfiguration
 import Mathlib.MeasureTheory.Function.LpSpace.ContinuousCompMeasurePreserving
 import Mathlib.Analysis.Calculus.BumpFunction.Convolution
+import Mathlib.MeasureTheory.Group.Measure
+import Mathlib.MeasureTheory.Measure.Lebesgue.VolumeOfBalls
 
 /-! Spatial convolution on the two-electron configuration space seen as an
 integral of L² translations. This gives norm convergence of the wave and

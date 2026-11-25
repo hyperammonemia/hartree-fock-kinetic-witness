@@ -52,8 +52,8 @@ theorem physical_weak_derivative (μ : Measure DilationConfig) [IsAddHaarMeasure
     ring
   rw [test_pair] at hw
   rw [dilated_pairing μ hl 3 Y (fun x => fderiv ℝ φ x v), dilated_pairing μ hl 4 dY φ]
-  have c3 : l⁻¹^3*l^6 = l^3 := by field_simp [hl.ne'] <;> ring
-  have c4 : l⁻¹^4*l^6 = l^2 := by field_simp [hl.ne'] <;> ring
+  have c3 : l⁻¹^3*l^6 = l^3 := by field_simp [hl.ne']
+  have c4 : l⁻¹^4*l^6 = l^2 := by field_simp [hl.ne']
   rw [c3,c4]
   linear_combination (l^2)*hw
 

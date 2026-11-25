@@ -28,7 +28,7 @@ theorem recurrence (n : ℕ) : I (n+2) = ((n:ℝ)+1)*I n := by
   norm_num only [Real.rpow_neg_one, inv_div, div_one]
   ring
 
-private theorem radial (f : ℝ → ℝ) :
+theorem radial (f : ℝ → ℝ) :
     (∫ x : X, f ‖x‖) = 4*Real.pi*(∫ r in Ioi (0:ℝ), r^2*f r) := by
   rw [integral_fun_norm_addHaar volume f]
   have hvol : (volume : Measure X).real (Metric.ball 0 1)=Real.pi*4/3 := by

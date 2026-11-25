@@ -5,7 +5,7 @@ open scoped TensorProduct ComplexConjugate
 
 namespace CoordinateTensor
 
-variable {X : Type*} [MeasurableSpace X] (μ : Measure X) [SFinite μ]
+variable {X : Type*} [MeasurableSpace X] (μ : Measure X)
 
 private theorem product_mem (f g : Lp ℂ 2 μ) :
     MemLp (fun z : X × X => f z.1*g z.2) 2 (μ.prod μ) := by
@@ -24,12 +24,10 @@ theorem pure_rep (f g : Lp ℂ 2 μ) :
     (pure μ f g : X × X → ℂ) =ᵐ[μ.prod μ] (fun z => f z.1*g z.2) :=
   (product_mem μ f g).coeFn_toLp
 
-omit [SFinite μ] in
 private theorem at_fst {f g : X → ℂ} (h : f =ᵐ[μ] g) :
     (fun z : X × X => f z.1) =ᵐ[μ.prod μ] (fun z => g z.1) :=
   h.comp_tendsto (Measure.quasiMeasurePreserving_fst (μ:=μ) (ν:=μ)).tendsto_ae
 
-omit [SFinite μ] in
 private theorem at_snd {f g : X → ℂ} (h : f =ᵐ[μ] g) :
     (fun z : X × X => f z.2) =ᵐ[μ.prod μ] (fun z => g z.2) :=
   h.comp_tendsto (Measure.quasiMeasurePreserving_snd (μ:=μ) (ν:=μ)).tendsto_ae
@@ -65,6 +63,8 @@ noncomputable def productLinear : (Lp ℂ 2 μ ⊗[ℂ] Lp ℂ 2 μ) →ₗ[ℂ]
 
 theorem productLinear_pure (f g : Lp ℂ 2 μ) :
     productLinear μ (f ⊗ₜ[ℂ] g) = pure μ f g := rfl
+
+variable [SFinite μ]
 
 private theorem inner_pure (a b x y : Lp ℂ 2 μ) :
     inner ℂ (pure μ a b) (pure μ x y) = inner ℂ a x * inner ℂ b y := by

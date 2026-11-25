@@ -17,8 +17,8 @@ def squareRoot (b : D →ₗ[ℝ] D →ₗ[ℝ] ℝ) (symm : ∀ x y, b x y=b y 
     add_left := fun x y z => by simp
     smul_left := fun x y t => by simp }
   letI : PreInnerProductSpace.Core ℝ D := core
-  exact @normSeminorm ℝ D _ (PreInnerProductSpace.Core.toSeminormedAddCommGroup (𝕜:=ℝ))
-    PreInnerProductSpace.Core.toNormedSpace
+  exact @normSeminorm ℝ D _ (InnerProductSpace.Core.toSeminormedAddCommGroup (𝕜:=ℝ))
+    InnerProductSpace.Core.toNormedSpace
 
 theorem sqrt_apply (b : D →ₗ[ℝ] D →ₗ[ℝ] ℝ) (symm : ∀ x y, b x y=b y x)
     (pos : ∀ x, 0≤b x x) (u : D) :
