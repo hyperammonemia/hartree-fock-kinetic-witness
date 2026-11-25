@@ -1,0 +1,283 @@
+$ lake --version
+Lake version 5.0.0-src+611c117 (Lean version 4.36.0)
+$ lake env lean --version
+Lean (version 4.36.0, x86_64-unknown-linux-gnu, commit 611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9, Release)
+$ git -C .lake/packages/mathlib rev-parse HEAD
+fc4f59e577feb1a4956671bc04ac18aaaf8cd842
+SHA-256 of checked source inputs
+16150a227e9a247452f54d4486eda939cece67c9a8da7da11dc1253d67053a5d  RadialCertificate.lean
+8866075b8923fba3ff4a90bcd22085d06cbf92f9d45fd0f374fba427c84f82f5  ContinuumForms.lean
+8bc59d39bf80c53ff899e11868482cdab5307e9fd05eb9fb6f9df475e9c73471  FinitePotential.lean
+b9c667937acfbc3f54399bd0001bfc9625e03b515c88b3cb6a9238d39276e46e  KineticAmplification.lean
+3603df9f7461ec92dac4e5e64f4e4c8a1947e66ff88de77a9574a9c337fed9a8  FiniteOscillatoryWindow.lean
+a416db8e563e838846821c12a010754d737ca2f034057fb4e9bb84dca90ca911  HFNotes.lean
+582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a  lean-toolchain
+cd308755a0a20df2924eac2f1dc80b742c18e5eedb10250abcd55d43e0b29f82  lakefile.toml
+02eb2c70624da852a8c30e0f55eae3de1490160212a5dfb40531227c45cea1dd  lake-manifest.json
+$ lake build +RadialCertificate
+ℹ [2/3] Built RadialCertificate (1.3s)
+info: RadialCertificate.lean:125:0: 'RadialCertificate.gaussian_moment_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:126:0: 'RadialCertificate.one_electron_floor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:127:0: 'RadialCertificate.ion_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:128:0: 'RadialCertificate.ion_gap_from_trial_states' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:129:0: 'RadialCertificate.double_excitation' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:130:0: 'RadialCertificate.global_hf_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:131:0: 'RadialCertificate.ground_state_distance' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:132:0: 'RadialCertificate.finite_reversal' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (3 jobs).
+$ lake build +ContinuumForms
+⚠ [5750/5751] Built ContinuumForms (61s)
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Real.Pi.Bounds` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: ContinuumForms.lean:130:0: 'ContinuumForms.ground_transform' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:131:0: 'ContinuumForms.sin_sq_unit_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:132:0: 'ContinuumForms.exterior_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:133:0: 'ContinuumForms.gaussian_constants' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5751/5751] Ran ContinuumForms:irArts
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Real.Pi.Bounds` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (5751 jobs).
+$ lake build +FinitePotential
+⚠ [5750/5755] Replayed ContinuumForms
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Real.Pi.Bounds` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: ContinuumForms.lean:130:0: 'ContinuumForms.ground_transform' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:131:0: 'ContinuumForms.sin_sq_unit_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:132:0: 'ContinuumForms.exterior_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:133:0: 'ContinuumForms.gaussian_constants' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5751/5755] Ran ContinuumForms:irArts
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Real.Pi.Bounds` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+ℹ [5752/5755] Replayed RadialCertificate
+info: RadialCertificate.lean:125:0: 'RadialCertificate.gaussian_moment_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:126:0: 'RadialCertificate.one_electron_floor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:127:0: 'RadialCertificate.ion_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:128:0: 'RadialCertificate.ion_gap_from_trial_states' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:129:0: 'RadialCertificate.double_excitation' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:130:0: 'RadialCertificate.global_hf_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:131:0: 'RadialCertificate.ground_state_distance' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:132:0: 'RadialCertificate.finite_reversal' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5754/5755] Built FinitePotential (63s)
+warning: FinitePotential.lean: imports `Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: FinitePotential.lean:105:0: 'FinitePotential.weight_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FinitePotential.lean:106:0: 'FinitePotential.physicalExternal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FinitePotential.lean:107:0: 'FinitePotential.sign_at_fixed_parameters' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5755/5755] Ran FinitePotential:irArts
+warning: FinitePotential.lean: imports `Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (5755 jobs).
+$ lake build +KineticAmplification
+⚠ [5636/5637] Built KineticAmplification (59s)
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.Fourier.RiemannLebesgueLemma` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: KineticAmplification.lean:172:0: 'KineticAmplification.kinetic_order_of_profile_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5637/5637] Ran KineticAmplification:irArts
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.Fourier.RiemannLebesgueLemma` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (5637 jobs).
+$ lake build +FiniteOscillatoryWindow
+⚠ [5630/5631] Built FiniteOscillatoryWindow (53s)
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.Calculus.Deriv.Mul` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: FiniteOscillatoryWindow.lean:65:0: 'KineticAmplification.weighted_sin_sq_unit_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5631/5631] Ran FiniteOscillatoryWindow:irArts
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.Calculus.Deriv.Mul` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (5631 jobs).
+$ lake build +HFNotes
+ℹ [1/62] Replayed RadialCertificate
+info: RadialCertificate.lean:125:0: 'RadialCertificate.gaussian_moment_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:126:0: 'RadialCertificate.one_electron_floor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:127:0: 'RadialCertificate.ion_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:128:0: 'RadialCertificate.ion_gap_from_trial_states' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:129:0: 'RadialCertificate.double_excitation' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:130:0: 'RadialCertificate.global_hf_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:131:0: 'RadialCertificate.ground_state_distance' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:132:0: 'RadialCertificate.finite_reversal' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5752/5799] Replayed ContinuumForms
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Real.Pi.Bounds` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: ContinuumForms.lean:130:0: 'ContinuumForms.ground_transform' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:131:0: 'ContinuumForms.sin_sq_unit_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:132:0: 'ContinuumForms.exterior_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:133:0: 'ContinuumForms.gaussian_constants' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5753/5799] Ran ContinuumForms:irArts
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Real.Pi.Bounds` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [5754/5799] Replayed FinitePotential
+warning: FinitePotential.lean: imports `Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: FinitePotential.lean:105:0: 'FinitePotential.weight_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FinitePotential.lean:106:0: 'FinitePotential.physicalExternal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FinitePotential.lean:107:0: 'FinitePotential.sign_at_fixed_parameters' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5755/5799] Ran FinitePotential:irArts
+warning: FinitePotential.lean: imports `Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [5794/5799] Replayed KineticAmplification
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.Fourier.RiemannLebesgueLemma` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: KineticAmplification.lean:172:0: 'KineticAmplification.kinetic_order_of_profile_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5795/5799] Ran KineticAmplification:irArts
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.Fourier.RiemannLebesgueLemma` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [5796/5799] Replayed FiniteOscillatoryWindow
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.Calculus.Deriv.Mul` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: FiniteOscillatoryWindow.lean:65:0: 'KineticAmplification.weighted_sin_sq_unit_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5797/5799] Ran FiniteOscillatoryWindow:irArts
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.Calculus.Deriv.Mul` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [5798/5799] Built HFNotes (72s)
+Build completed successfully (5799 jobs).
+$ lake build
+ℹ [1/70] Replayed RadialCertificate
+info: RadialCertificate.lean:125:0: 'RadialCertificate.gaussian_moment_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:126:0: 'RadialCertificate.one_electron_floor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:127:0: 'RadialCertificate.ion_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:128:0: 'RadialCertificate.ion_gap_from_trial_states' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:129:0: 'RadialCertificate.double_excitation' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:130:0: 'RadialCertificate.global_hf_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:131:0: 'RadialCertificate.ground_state_distance' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: RadialCertificate.lean:132:0: 'RadialCertificate.finite_reversal' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5752/5800] Replayed ContinuumForms
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Real.Pi.Bounds` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: ContinuumForms.lean:130:0: 'ContinuumForms.ground_transform' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:131:0: 'ContinuumForms.sin_sq_unit_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:132:0: 'ContinuumForms.exterior_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ContinuumForms.lean:133:0: 'ContinuumForms.gaussian_constants' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5753/5800] Ran ContinuumForms:irArts
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.Real.Pi.Bounds` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: ContinuumForms.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [5754/5800] Replayed FinitePotential
+warning: FinitePotential.lean: imports `Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: FinitePotential.lean:105:0: 'FinitePotential.weight_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FinitePotential.lean:106:0: 'FinitePotential.physicalExternal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: FinitePotential.lean:107:0: 'FinitePotential.sign_at_fixed_parameters' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5755/5800] Ran FinitePotential:irArts
+warning: FinitePotential.lean: imports `Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [5794/5800] Replayed KineticAmplification
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.Fourier.RiemannLebesgueLemma` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: KineticAmplification.lean:172:0: 'KineticAmplification.kinetic_order_of_profile_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5795/5800] Ran KineticAmplification:irArts
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.Fourier.RiemannLebesgueLemma` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: KineticAmplification.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [5796/5800] Replayed FiniteOscillatoryWindow
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.Calculus.Deriv.Mul` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+info: FiniteOscillatoryWindow.lean:65:0: 'KineticAmplification.weighted_sin_sq_unit_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [5797/5800] Ran FiniteOscillatoryWindow:irArts
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Analysis.Calculus.Deriv.Mul` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.FieldSimp` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Linarith` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Ring` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: FiniteOscillatoryWindow.lean: imports `Mathlib.Tactic.Positivity` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (5800 jobs).
+$ lake env lean --trust=0 --stdin
+'RadialCertificate.gaussian_moment_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RadialCertificate.one_electron_floor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RadialCertificate.ion_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RadialCertificate.ion_gap_from_trial_states' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RadialCertificate.double_excitation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RadialCertificate.global_hf_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RadialCertificate.ground_state_distance' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RadialCertificate.finite_reversal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ContinuumForms.ground_transform' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ContinuumForms.sin_sq_unit_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ContinuumForms.exterior_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ContinuumForms.gaussian_constants' depends on axioms: [propext, Classical.choice, Quot.sound]
+'FinitePotential.weight_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'FinitePotential.physicalExternal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'FinitePotential.sign_at_fixed_parameters' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KineticAmplification.kinetic_order_of_profile_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KineticAmplification.weighted_sin_sq_unit_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+Inspected 17 declarations. All axioms belong to the standard set.

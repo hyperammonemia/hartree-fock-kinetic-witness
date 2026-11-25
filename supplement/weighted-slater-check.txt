@@ -1,0 +1,10 @@
+Lean (version 4.36.0, x86_64-unknown-linux-gnu, commit 611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9, Release)
+'WeightedSlater.multiply_pair' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WeightedSlater.exchange_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WeightedSlater.energy_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+Lean default kernel accepts the solution
+con-leche: 1 inductive blocks modelled in-process: Lean.Syntax (30 generated records, checked by the fold as declarations and not counted as records of the file)
+con-leche: accepted 2596 declarations (--verified)
+WeightedSlater passed export replay and independent con-leche verification.
+f524198f36952f6ede79935f6ecb5a9e7bb8f2ecda29c3f17bed0c81bb204219  WeightedSlater.lean
+All exported theorems and their dependencies passed.
