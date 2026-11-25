@@ -12,6 +12,8 @@ The example has two electrons interacting by $1/|x-y|$. Its fixed confining exte
 
 The parameters are specified symbolically and held finite. At the given scale, direct floating-point simulation cannot resolve the shell probability or oscillation frequency. The derivation instead gives strict estimates with an explicit positive margin. [Construction and estimates](continuum-witness.md)
 
+A second pass by the constructor examines normalization, the exterior boundary term and general complex spin orbitals. It includes a Lean proof of the normalization bound for distinct probability and energy measures. [Detailed checks](radial-audit.md) · [Normalization theorem](supplement/RayleighReweighting.lean)
+
 ## What Lean checks
 
 The formal evidence includes the scalar variational margins and the final sign under their hypotheses. Additional modules treat the ground-state transformation and kinetic amplification with actual integrals. The outstanding physical statements concern the continuum many-electron operator, its exact and global Hartree–Fock optimizers, and their identification with the estimates in the final inequality. [Formal coverage](VERIFICATION.md) · [Search summary](llms.txt)

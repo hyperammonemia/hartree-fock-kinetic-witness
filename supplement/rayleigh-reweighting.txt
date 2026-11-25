@@ -1,0 +1,6 @@
+Lean (version 4.36.0, x86_64-unknown-linux-gnu, commit 611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9, Release)
+fc4f59e577feb1a4956671bc04ac18aaaf8cd842
+8d0fc7e2a2c38239df8509a44e527d6ac092dec9734bb6146f110cb32f710654  supplement/RayleighReweighting.lean
+$ lake env lean -j1 --trust=0 -DwarningAsError=true supplement/RayleighReweighting.lean
+'RayleighReweighting.normalized_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+Exit code: 0
