@@ -1,5 +1,7 @@
 # Scope of the formal proofs
 
+The continuum library defines `ContinuumHamiltonian.FixedRadialReversal` for complex spinors in the specified physical field. It also proves intermediate results for weak exterior comparison, Gaussian integrals, the three-dimensional density probe and the kinetic remainder. The library's coverage table identifies the hypotheses needed for each application. The previous five-module audit below records the earlier scalar and integral results. [Continuum coverage table](continuum/README.md) · [Precise physical statement](continuum/ContinuumHamiltonian.lean)
+
 The physical question compares kinetic expectation values at two different global minimizers of one fixed Hamiltonian. Minimizing the total energy alone gives an ordering of total energies. A comparison of their kinetic contributions needs control of the wavefunctions. The analytic note supplies this through a density tail bound and a change of variables. [Eq. (7) of the original article](https://dft.uci.edu/pubs/CLB22.pdf) · [Six-section derivation](continuum-witness.md)
 
 | Lean source | Mathematical content |

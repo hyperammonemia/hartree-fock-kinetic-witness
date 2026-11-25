@@ -16,6 +16,8 @@ A second pass by the constructor examines normalization, the exterior boundary t
 
 ## What Lean checks
 
+The statement `ContinuumHamiltonian.FixedRadialReversal` specifies the potential, the two variational classes and both physical kinetic integrals. A proof of this proposition remains open. Several parts now refer directly to functions on Euclidean space, including the radial barrier, the probe integral with its angular Jacobian, and the finite-frequency gradient estimate. Each theorem's outstanding physical hypotheses are listed beside it. [Continuum results](continuum/README.md) · [Physical target](continuum/ContinuumHamiltonian.lean)
+
 The formal evidence includes the scalar variational margins and the final sign under their hypotheses. Additional modules treat the ground-state transformation and kinetic amplification with actual integrals. The outstanding physical statements concern the continuum many-electron operator, its exact and global Hartree–Fock optimizers, and their identification with the estimates in the final inequality. [Formal coverage](VERIFICATION.md) · [Search summary](llms.txt)
 
 The archived source uses Lean 4.36.0 and a pinned mathlib. With the matching toolchain, run

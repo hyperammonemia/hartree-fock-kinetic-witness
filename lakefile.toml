@@ -1,6 +1,6 @@
 name = "hartree-fock-kinetic-witness"
 version = "0.1.0"
-defaultTargets = ["HFNotes"]
+defaultTargets = ["HFNotes", "ContinuumResults"]
 
 [[require]]
 name = "mathlib"
@@ -10,3 +10,8 @@ rev = "fc4f59e577feb1a4956671bc04ac18aaaf8cd842"
 [[lean_lib]]
 name = "HFNotes"
 roots = ["HFNotes", "RadialCertificate", "ContinuumForms", "FinitePotential", "KineticAmplification", "FiniteOscillatoryWindow"]
+
+[[lean_lib]]
+name = "ContinuumResults"
+srcDir = "continuum"
+roots = ["ContinuumResults", "ContinuumHamiltonian", "FiniteKinetic", "GaussianCoulomb", "RadialBarrier", "RadialConfiguration", "RadialProbe", "UnitVariational", "WeakRadial", "WeightNormalization"]
