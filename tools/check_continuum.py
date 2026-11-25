@@ -8,6 +8,12 @@ from check_lean import ROOT, STANDARD_AXIOMS, run
 
 
 EXTRA = {
+    "CoulombCentering": ["CoulombCentering.row_zero", "CoulombCentering.spin_singlet_single",
+                         "CoulombCentering.multiplication_form_floor"],
+    "SlaterGeometry": ["SlaterGeometry.inner_slater", "SlaterGeometry.slater_unit",
+                       "SlaterGeometry.double_excitation_bound"],
+    "ExteriorTail": ["HFExterior.exists_trace", "HFExterior.explicit_barrier_tail",
+                     "HFExterior.marginal_tail_of_weak_difference"],
     "RadialBarrier": ["HFExterior.oscillator_barrier", "HFExterior.exterior_supersolution"],
     "WeakRadial": ["HFExterior.ExteriorProfile.positivePart", "HFExterior.weak_radial_maximum"],
 }

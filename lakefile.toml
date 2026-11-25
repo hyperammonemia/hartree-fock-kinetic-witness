@@ -12,6 +12,10 @@ name = "HFNotes"
 roots = ["HFNotes", "RadialCertificate", "ContinuumForms", "FinitePotential", "KineticAmplification", "FiniteOscillatoryWindow"]
 
 [[lean_lib]]
+name = "RayleighReweighting"
+srcDir = "supplement"
+
+[[lean_lib]]
 name = "ContinuumResults"
 srcDir = "continuum"
-roots = ["ContinuumResults", "ContinuumHamiltonian", "FiniteKinetic", "GaussianCoulomb", "RadialBarrier", "RadialConfiguration", "RadialProbe", "UnitVariational", "WeakRadial", "WeightNormalization"]
+roots = ["ContinuumResults", "ContinuumHamiltonian", "CoulombCentering", "ExteriorTail", "FiniteKinetic", "FixedRadialDomain", "FixedRadialSectionFive", "GaussianCoulomb", "GroundSymmetry", "PullbackIntegrals", "RadialBarrier", "RadialConfiguration", "RadialProbe", "SectionFive", "SlaterGeometry", "UnitVariational", "WeakRadial", "WeightNormalization"]
