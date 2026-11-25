@@ -28,8 +28,9 @@ def selected_names(path):
             namespace.append(words[1])
         if words[:1] == ["end"] and len(words) == 2 and namespace and namespace[-1] == words[1]:
             namespace.pop()
-        if words[:2] == ["#print", "axioms"]:
-            name = words[2]
+        public = re.match(r"^(?:(?:protected|noncomputable)\s+)?(?:theorem|lemma)\s+([\w.']+)", line)
+        if public or words[:2] == ["#print", "axioms"]:
+            name = public.group(1) if public else words[2]
             if namespace and not name.startswith(".".join(namespace) + "."):
                 name = ".".join([*namespace, name])
             result.append(name)
