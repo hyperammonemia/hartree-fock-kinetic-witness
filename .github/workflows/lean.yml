@@ -1,0 +1,47 @@
+name: Check the published Lean results
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.lean'
+      - 'lake*'
+      - 'lean-toolchain'
+      - 'tools/*.py'
+      - '.github/workflows/lean.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      LEAN_NUM_THREADS: '2'
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@498ce7030982ff0e0cecd98a8f5a7c90615b4e41
+        with:
+          auto-config: 'false'
+          use-github-cache: 'false'
+          use-mathlib-cache: 'false'
+      - name: Fetch the pinned mathlib imports
+        run: python3 tools/fetch_cache.py
+      - name: Check the baseline and continuum declarations
+        run: |
+          python3 tools/check_lean.py
+          python3 tools/check_continuum.py
+      - name: Check the physical proof boundary
+        run: |
+          if python3 tools/check_physical_theorem.py ContinuumHamiltonian ContinuumHamiltonian.total_energy_order > /tmp/hf-physical-control.txt 2>&1; then
+            cat /tmp/hf-physical-control.txt
+            exit 1
+          fi
+          cat /tmp/hf-physical-control.txt
+          grep -F 'Type mismatch' /tmp/hf-physical-control.txt
+          grep -F 'ContinuumHamiltonian.FixedRadialReversal' /tmp/hf-physical-control.txt
