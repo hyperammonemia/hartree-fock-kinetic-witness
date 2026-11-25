@@ -1,10 +1,15 @@
 import DilationWeak
 import SingletKinetic
 import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+import Mathlib.MeasureTheory.Measure.Lebesgue.VolumeOfBalls
 
 open MeasureTheory MeasureTheory.Measure FinitePotential
 namespace HFKinetic
 noncomputable section
+
+instance configurationVolumeHaar : IsAddHaarMeasure (volume : Measure DilationConfig) := by
+  change IsAddHaarMeasure ((volume : Measure Position).prod volume)
+  infer_instance
 
 theorem dilated_memLp {G : Type*} [NormedAddCommGroup G] [NormedSpace ℝ G]
     {μ : Measure DilationConfig} [IsAddHaarMeasure μ] (n : ℕ) {l : ℝ} (hl : 0 < l)
@@ -33,7 +38,7 @@ theorem weak_dilated_spin_axis (Y : DilationConfig → ℝ) (G : Fin 2 → Dilat
     (i : Fin 2) (j : Fin 3) {l : ℝ} (hl : 0 < l)
     (weak : ContinuumHamiltonian.IsWeakPartial (fun x => (Y x : ℂ)) (fun x => (G i x j : ℂ))
       (ContinuumHamiltonian.axis i j)) :
-    ContinuumHamiltonian.IsWeakPartial (fun x => (dilatedField l 3 Y x : ℂ))
+    ContinuumHamiltonian.IsWeakPartial (fun x => ((dilatedField l 3 Y x : ℝ) : ℂ))
       (fun x => (dilatedField l 4 (G i) x j : ℂ)) (ContinuumHamiltonian.axis i j) := by
   apply (weakAxis_iff_complex (dilatedField l 3 Y)
     (dilatedField l 4 (fun x => G i x j)) (ContinuumHamiltonian.axis i j)).mp

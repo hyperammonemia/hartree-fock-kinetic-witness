@@ -16,8 +16,17 @@ def c := (Real.pi/2)^((3:ℝ)/2)
 private theorem gaussian_slice (z : X) :
     (∫ y : X, rho y*rho (z+y)) = c*relative z := by
   have h := NewtonGaussian.gaussian_convolution (-z) 1 (by norm_num)
-  have e (y : X) : -z-y = -(z+y) := by abel
-  simpa [rho,c,relative,e,mul_comm] using h
+  calc
+    _ = ∫ y : X, Real.exp (-‖y‖^2)*Real.exp (-1*‖-z-y‖^2) := by
+      apply integral_congr_ae
+      filter_upwards with y
+      rw [show -z-y = -(z+y) by abel,norm_neg]
+      simp [rho]
+    _ = _ := by
+      rw [h,norm_neg]
+      unfold c relative
+      norm_num only [one_add_one_eq_two]
+      exact mul_comm _ _
 
 theorem difference_integral (K : X → ℝ) (hm : Measurable K) (h0 : ∀ z, 0 ≤ K z)
     (hi : Integrable (fun z => K z*relative z)) :

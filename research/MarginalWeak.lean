@@ -213,10 +213,10 @@ private theorem regularization_errors {ε : ℝ} (he : 0 < ε) (u : E) :
       _ ≤ 1 * (fiberLength ε u-‖u‖) := mul_le_mul_of_nonneg_right ht1 (sub_nonneg.mpr ha)
       _ ≤ ε := by linarith
 
+omit [InnerProductSpace ℝ E] in
 /-- After applying the weak derivative identity to the compact smooth scalar test,
 take ε to zero. For that application A is minus half the Laplacian of the test and
 B is the test times the exterior potential. Both error terms are bounded by ε. -/
-omit [InnerProductSpace ℝ E] in
 theorem remove_fiber_regularization (U : MarginalPosition → E) (A B : MarginalPosition → ℝ)
     (hc : Integrable (fun x => |A x|+|B x|))
     (hi : Integrable (fun x => (A x+B x)*‖U x‖))
@@ -245,6 +245,7 @@ theorem remove_fiber_regularization (U : MarginalPosition → E) (A B : Marginal
     have hiS : Integrable S := hreg ε he
     have hiC : Integrable C := hc.const_mul ε
     have hb := integral_mono hi (hiS.add hiC) hm
+    simp only [Pi.add_apply] at hb
     rw [integral_add hiS hiC] at hb
     have hC : (∫ x, C x) = ε*K := integral_const_mul _ _
     rw [hC] at hb

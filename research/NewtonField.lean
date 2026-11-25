@@ -38,6 +38,7 @@ private theorem integrable_kernel (x : X) :
   · filter_upwards with t
     by_contra hn
     have hi := inner_integral x t
+    change ¬Integrable (kernel x t) volume at hn
     rw [integral_undef hn] at hi
     have hp : 0 < Z*CoulombSubstitution.profile ‖x‖ t := by
       unfold Z CoulombSubstitution.profile CoulombSubstitution.jac

@@ -1,5 +1,6 @@
 import FluxTests
 import GaussianFlux
+import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
 import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
 
 /-! Integration by parts for the exterior Gaussian barrier in compact radial tests. -/
@@ -76,9 +77,9 @@ theorem weak_difference_of_supersolution {q : ℝ} {A C F dF P : ℝ → ℝ}
     FluxHats.testsOnPieces q (fun r => A r-F r) (fun r => C r-P r) := by
   have hFc : ContinuousOn F (Ioi q) := HasDerivAt.continuousOn hF
   have hFi : locallyPairable q F := fun l t hql hlt =>
-    (hFc.mono fun _ hx => hql.trans_le hx.1).intervalIntegrable_of_Icc hlt
+    (hFc.mono (show Icc l t ⊆ Ioi q from fun _ hx => hql.trans_le hx.1)).intervalIntegrable_of_Icc hlt
   have hPi : locallyPairable q P := fun l t hql hlt =>
-    (hP.mono fun _ hx => hql.trans_le hx.1).intervalIntegrable_of_Icc hlt
+    (hP.mono (show Icc l t ⊆ Ioi q from fun _ hx => hql.trans_le hx.1)).intervalIntegrable_of_Icc hlt
   intro l c S t L dL M dM R dR hql hlc hcS hSt hpL hpM hpR hL hLM hMR hR
   have weak := hweak l c S t L dL M dM R dR hql hlc hcS hSt hpL hpM hpR hL hLM hMR hR
   have barrier := barrier_test_lower hF hdF hP hsign l c S t L dL M dM R dR
@@ -109,7 +110,6 @@ theorem barrierMomentum_hasDerivAt {q α r : ℝ} (hr : 0 < r) :
     unfold barrierMomentum radialJacobian
     rw [(densityBarrier_hasDerivAt (show 0 < t from ht)).deriv]
     field_simp [(show 0 < t from ht).ne']
-    ring
   have hgauss : DifferentiableAt ℝ (fun t : ℝ => Real.exp (-t^2)) r := by fun_prop
   have hd : DifferentiableAt ℝ (fun t => (-(2*α))*t*Real.exp (-t^2)*densityBarrier q α t) r :=
     (((differentiableAt_const _).mul differentiableAt_id).mul hgauss).mul
@@ -171,9 +171,42 @@ theorem clamped_difference_flux_ae {q α l t : ℝ} (M : ℝ → ℝ)
     filter_upwards [Ioi_mem_nhds hqr] with s hs
     rw [max_eq_right (show q ≤ s from le_of_lt hs)]
   unfold FluxHats.flux
-  rw [physical_flux hqr.le,heq.deriv_eq,(hM'.hasDerivAt.sub hBr).deriv]
+  have hh := hM'.hasDerivAt.sub hBr
+  simp only [Pi.sub_def] at hh
+  rw [physical_flux hqr.le,heq.deriv_eq,hh.deriv]
   unfold barrierMomentum
   rw [hBr.deriv]
   ring
+
+/-- The Gaussian barrier flux is integrable on the full exterior, for every
+nonnegative exponent. Its majorant is a constant times r exp(−r²). -/
+theorem barrierMomentum_integrable {q α : ℝ} (hq : 0 < q) (ha : 0 ≤ α) :
+    IntegrableOn (barrierMomentum q α) (Ioi q) := by
+  have h0 : IntegrableOn (fun r : ℝ => r*Real.exp (-r^2)) (Ioi 0) := by
+    simpa using integrableOn_rpow_mul_exp_neg_mul_sq (b := (1 : ℝ)) one_pos (s := (1 : ℝ))
+      (by norm_num)
+  have hqInt : IntegrableOn (fun r : ℝ => r*Real.exp (-r^2)) (Ioi q) :=
+    h0.mono_set (Ioi_subset_Ioi hq.le)
+  have hc : ContinuousOn (barrierMomentum q α) (Ioi q) := fun r hr =>
+    (barrierMomentum_hasDerivAt (hq.trans hr)).continuousAt.continuousWithinAt
+  apply (hqInt.const_mul (2*α*densityBarrier q α q)).mono' (hc.aestronglyMeasurable measurableSet_Ioi)
+  filter_upwards [ae_restrict_mem (μ := (volume : Measure ℝ)) (measurableSet_Ioi (a := q))] with r hr
+  have hr0 : 0 < r := hq.trans hr
+  have hB : densityBarrier q α r ≤ densityBarrier q α q := by
+    unfold densityBarrier
+    apply Real.exp_le_exp.mpr
+    have hl : Real.log q ≤ Real.log r := Real.log_le_log hq (le_of_lt hr)
+    rw [sub_self,mul_zero,add_zero]
+    exact add_le_of_nonpos_right (mul_nonpos_of_nonneg_of_nonpos (by positivity) (sub_nonpos.mpr hl))
+  have heq : barrierMomentum q α r = -(2*α*(r*Real.exp (-r^2))*densityBarrier q α r) := by
+    rw [barrierMomentum,(densityBarrier_hasDerivAt hr0).deriv]
+    unfold radialJacobian
+    field_simp [hr0.ne']
+  have hB0 := densityBarrier_pos q α r
+  rw [Real.norm_eq_abs,heq,abs_neg,abs_of_nonneg (by positivity)]
+  calc
+    _ ≤ (2*α*(r*Real.exp (-r^2)))*densityBarrier q α q :=
+      mul_le_mul_of_nonneg_left hB (by positivity)
+    _ = _ := by ring
 
 end HFExterior

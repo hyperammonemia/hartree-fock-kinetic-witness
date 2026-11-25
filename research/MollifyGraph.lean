@@ -13,6 +13,10 @@ open scoped Topology Convolution
 namespace MollifyGraph
 open RadialConfiguration
 
+local instance : Measure.IsAddHaarMeasure (volume : Measure Config) := by
+  change Measure.IsAddHaarMeasure ((volume : Measure Point).prod volume)
+  infer_instance
+
 def shifts : C(Config,C(Config,Config)) :=
   (⟨fun z : Config × Config => z.1+z.2, continuous_fst.add continuous_snd⟩ :
     C(Config × Config,Config)).curry

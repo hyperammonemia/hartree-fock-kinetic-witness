@@ -9,7 +9,7 @@ abbrev X := FinitePotential.Position
 abbrev b := FinitePotential.amplitude
 def ρ (x : X) := Real.exp (-(‖x‖^2))
 
-private theorem squared_window (x : X) :
+theorem squared_window (x : X) :
     (1-b)^2 ≤ FinitePotential.weight x ^ 2 ∧
     FinitePotential.weight x ^ 2 ≤ (1+b)^2 := by
   have hb := FinitePotential.amplitude_pos.le
@@ -29,7 +29,7 @@ private theorem squared_window (x : X) :
   exact ⟨pow_le_pow_left₀ (by linarith) lb 2,
     pow_le_pow_left₀ (FinitePotential.weight_pos x).le ub 2⟩
 
-private theorem reweighted_window (f : X → ℝ) (hf : Integrable f)
+theorem reweighted_window (f : X → ℝ) (hf : Integrable f)
     (hf0 : ∀ x, 0 ≤ f x)
     (hm : Measurable FinitePotential.weight) :
     (1-b)^2*(∫ y, f y) ≤ ∫ y, f y*(FinitePotential.weight y)^2 ∧

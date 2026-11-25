@@ -13,7 +13,9 @@ private def IsWeighted (a b : Wave) (k : Config → ℝ) := ∀ᵐ x ∂volume, 
 
 private theorem weight_zero (k : Config → ℝ) : IsWeighted 0 0 k := by
   filter_upwards [Lp.coeFn_zero (E:=ℝ) (p:=2) (μ:=(volume:Measure Config))] with x hx
-  simp [hx]
+  change (0:Wave) x = k x*(0:Wave) x
+  rw [hx]
+  simp
 
 private theorem weight_add {a b d e : Wave} {k : Config → ℝ}
     (h : IsWeighted a b k) (j : IsWeighted d e k) : IsWeighted (a+d) (b+e) k := by

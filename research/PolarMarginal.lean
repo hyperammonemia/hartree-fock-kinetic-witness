@@ -16,9 +16,10 @@ namespace HFExterior.Polar
 abbrev Position := EuclideanSpace ℝ (Fin 3)
 abbrev Direction := sphere (0 : Position) 1
 abbrev Radius := Ioi (0 : ℝ)
+abbrev Punctured := ({(0 : Position)}ᶜ : Set Position)
 
-def surface : Measure Direction := (volume : Measure Position).toSphere
-def radial : Measure Radius := Measure.volumeIoiPow 2
+abbrev surface : Measure Direction := (volume : Measure Position).toSphere
+abbrev radial : Measure Radius := Measure.volumeIoiPow 2
 
 /-- The unnormalized spherical surface measure has mass 4π. -/
 theorem surface_area : surface.real univ = 4*Real.pi := by
@@ -37,12 +38,13 @@ theorem spatial_integral (H : Position → ℝ) :
     (∫ x, H x) = ∫ z : Direction × Radius, H ((z.2 : ℝ) • (z.1 : Position)) ∂surface.prod radial := by
   let e := homeomorphUnitSphereProd Position
   calc
-    (∫ x, H x) = ∫ x : ({(0 : Position)}ᶜ : Set Position), H x.1 ∂volume.comap (↑) := by
+    (∫ x, H x) = ∫ x : Punctured, H x.1 ∂(volume : Measure Position).comap (fun x : Punctured => x.val) := by
       rw [integral_subtype_comap (measurableSet_singleton _).compl H,restrict_compl_singleton]
     _ = _ := by
       have h := (volume : Measure Position).measurePreserving_homeomorphUnitSphereProd.integral_comp
         (Homeomorph.measurableEmbedding _) (fun z => H ((e.symm z).1))
-      change (∫ x, H ((e.symm (e x)).1) ∂volume.comap (↑)) = _ at h
+      change (∫ x : Punctured, H ((e.symm (e x)).1) ∂(volume : Measure Position).comap
+        (fun x : Punctured => x.val)) = _ at h
       simp only [Homeomorph.symm_apply_apply] at h
       have hd : Module.finrank ℝ Position - 1 = 2 := by simp [Position]
       simpa only [e,homeomorphUnitSphereProd_symm_apply_coe,hd,surface,radial] using h
@@ -68,12 +70,14 @@ theorem pair_polar_probe (ψ : Position × Position → ℝ) (g : ℝ → ℝ)
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun z => by
     have hnorm : ‖(z.1 : Position)‖ = 1 := mem_sphere_zero_iff_norm.mp z.1.property
+    change (∫ y, g ‖(z.2 : ℝ) • (z.1 : Position)‖ * ψ ((z.2 : ℝ) • (z.1 : Position),y)^2) = _
     rw [norm_smul, Real.norm_eq_abs, abs_of_pos z.2.property, hnorm, mul_one,integral_const_mul]
 
 theorem spatial_integrable {H : Position → ℝ} (hf : Integrable H) :
     Integrable (fun z : Direction × Radius => H ((z.2 : ℝ) • (z.1 : Position))) (surface.prod radial) := by
   let e := homeomorphUnitSphereProd Position
-  have hi : Integrable (fun x : ({(0 : Position)}ᶜ : Set Position) => H x.1) (volume.comap (↑)) :=
+  have hi : Integrable (fun x : Punctured => H x.1)
+      ((volume : Measure Position).comap (fun x : Punctured => x.val)) :=
     (integrableOn_iff_comap_subtypeVal (measurableSet_singleton _).compl).mp hf.integrableOn
   have h := (volume : Measure Position).measurePreserving_homeomorphUnitSphereProd.integrable_comp_emb
     (g := fun z => H ((e.symm z).1)) (Homeomorph.measurableEmbedding _)
@@ -88,6 +92,7 @@ theorem ordinary_radius (f : ℝ → ℝ) :
     integral_subtype_comap measurableSet_Ioi (fun r : ℝ => Real.toNNReal (r^2) • f r)]
   · apply setIntegral_congr_fun measurableSet_Ioi
     intro r _
+    change (r^2).toNNReal • f r = r^2*f r
     rw [NNReal.smul_def,Real.coe_toNNReal _ (sq_nonneg _),smul_eq_mul]
   · exact (measurable_subtype_coe.pow_const _).real_toNNReal
 
@@ -110,6 +115,5 @@ theorem pair_radial_mass (ψ : Position × Position → ℝ)
   intro r _
   unfold angularDensity
   field_simp [Real.pi_ne_zero]
-  ring
 
 end HFExterior.Polar

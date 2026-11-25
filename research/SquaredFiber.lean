@@ -32,8 +32,9 @@ theorem squared_fiber_drop_positive {U : ℝ → E} {h : ℝ → ℝ} {du : E} {
 private theorem integrable_inner_of_memLp {μ : Measure ℝ} {f g : ℝ → E}
     (hf : MemLp f 2 μ) (hg : MemLp g 2 μ) :
     Integrable (fun r => ⟪f r,g r⟫_ℝ) μ := by
-  apply (hf.norm.integrable_mul hg.norm).mono' (hf.aestronglyMeasurable.inner hg.aestronglyMeasurable)
-  exact Filter.Eventually.of_forall (fun r => norm_inner_le_norm _ _)
+  apply (MeasureTheory.L2.integrable_inner (𝕜 := ℝ) (hf.toLp f) (hg.toLp g)).congr
+  filter_upwards [hf.coeFn_toLp,hg.coeFn_toLp] with r hfr hgr
+  rw [hfr,hgr]
 
 /-- In physical variables, rU is square integrable by normalization, r U' by kinetic
 energy, and r² U by the oscillator moment. These conditions control the transformed
@@ -59,11 +60,11 @@ def squaredGaussianRatio (U : ℝ → E) (r : ℝ) : ℝ :=
 omit [InnerProductSpace ℝ E] in
 theorem squaredGaussianRatio_eq (U : ℝ → E) (r : ℝ) :
     squaredGaussianRatio U r = ‖U r‖^2 / gaussianRadial r ^ 2 := by
-  apply (eq_div_iff (sq_ne_zero _ (Real.exp_pos _).ne')).mpr
+  apply (eq_div_iff (sq_pos_of_pos (show 0 < gaussianRadial r from Real.exp_pos _)).ne').mpr
   unfold squaredGaussianRatio densityScale gaussianRadial
   have ht : Real.exp (3/2*Real.log Real.pi)*Real.exp (r^2)*
       (Real.exp (-r^2/2-3/4*Real.log Real.pi))^2 = 1 := by
-    rw [pow_two]
+    rw [pow_two (Real.exp (-r^2/2-3/4*Real.log Real.pi))]
     simp only [← Real.exp_add]
     rw [show 3/2*Real.log Real.pi + r^2 +
       ((-r^2/2-3/4*Real.log Real.pi)+(-r^2/2-3/4*Real.log Real.pi)) = 0 by ring, Real.exp_zero]
@@ -76,7 +77,7 @@ theorem transformed_squared_flux {U : ℝ → E} {du : E} {r : ℝ} (hU : HasDer
     radialJacobian r * deriv (squaredGaussianRatio U) r =
       densityScale * (r^2*(deriv (fun s => ‖U s‖^2) r+2*r*‖U r‖^2)) := by
   have hsq : HasDerivAt (fun t : ℝ => t^2) (2*r) r := by
-    simpa using (hasDerivAt_id r).pow 2
+    simpa using hasDerivAt_pow 2 r
   have he : HasDerivAt (fun t : ℝ => Real.exp (t^2)) (Real.exp (r^2)*(2*r)) r := hsq.exp
   have hd := (he.const_mul densityScale).mul hU.norm_sq
   simp only [Pi.mul_def] at hd

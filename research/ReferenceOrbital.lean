@@ -90,10 +90,11 @@ theorem weight_c2 : ContDiff ℝ 2 weight := by
     · subst x
       have hnear : ∀ᶠ x : Position in 𝓝 0, ‖x‖<radius :=
         continuous_norm.continuousAt.eventually_lt continuousAt_const (by simpa [radius] using Real.exp_pos (10^18:ℝ))
-      apply contDiffAt_const.congr_of_eventuallyEq
+      apply (contDiffAt_const (c := (0:ℝ))).congr_of_eventuallyEq
       filter_upwards [hnear] with t ht
       have hout : ‖t‖-radius ≤ 0 := by linarith
-      simp [p,envelope,FinitePotential.switch,hout]
+      have hcut : FinitePotential.switch (‖t‖-radius)=0 := if_pos hout
+      simp only [p,envelope,hcut,zero_mul]
     · exact hp.comp_contDiffAt x (contDiffAt_norm ℝ hx)
   change ContDiff ℝ 2 (fun x : Position => 1+amplitude*envelope ‖x‖*Real.cos (frequency*‖x‖))
   simp_rw [mul_assoc]

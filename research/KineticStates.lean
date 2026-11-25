@@ -18,6 +18,7 @@ theorem pairProbe_eq_kinetic_probe (Y : Configuration → ℝ) :
     simp [sineProfile,position,densitySine]
   unfold pairProbe probe
   rw [Fin.sum_univ_two,h0,h1]
+  rfl
 
 theorem kinetic_probe_margin_of_tail (U R : Configuration → ℝ) (s : ℝ → ℝ)
     (uI : Integrable (fun z : Configuration => densitySine z.1^2*U z^2))

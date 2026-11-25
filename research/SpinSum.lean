@@ -5,7 +5,7 @@ open scoped ComplexConjugate TensorProduct
 
 namespace SpinSum
 
-variable {X : Type*} [MeasurableSpace X] (μ : Measure X) [SFinite μ]
+variable {X : Type*} [MeasurableSpace X] (μ : Measure X)
 
 noncomputable def component (c : ℂ) (a b : Fin 2 → Lp ℂ 2 μ) (s t : Fin 2) :
     Lp ℂ 2 (μ.prod μ) :=
@@ -28,6 +28,8 @@ private theorem expand_inner {V : Type*} [NormedAddCommGroup V] [InnerProductSpa
   simp only [inner_smul_left,inner_smul_right,inner_sub_left,inner_sub_right]
   ring
 
+variable [SFinite μ]
+
 private theorem pairing (u v p q : Lp ℂ 2 μ) :
     inner ℂ (CoordinateTensor.pure μ u v) (CoordinateTensor.pure μ p q) =
       inner ℂ u p * inner ℂ v q := by
@@ -43,6 +45,7 @@ private theorem block_inner (c : ℂ) (u v p q : Fin 2 → Lp ℂ 2 μ) (s t : F
   rw [component,component,expand_inner]
   simp only [pairing]
 
+omit [SFinite μ] in
 private theorem coordinate_pair (c : ℂ) (u v p q : Fin 2 → Lp ℂ 2 μ) (s t : Fin 2) :
     (∫ z, conj (coordinate μ c u v s t z)*coordinate μ c p q s t z ∂(μ.prod μ)) =
       inner ℂ (component μ c u v s t) (component μ c p q s t) := by
