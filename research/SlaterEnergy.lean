@@ -42,9 +42,11 @@ private theorem residual_sq {V : Type*} [NormedAddCommGroup V] [InnerProductSpac
     (d s : V) (hd : ‖d‖=1) (hs : ‖s‖=1) :
     ‖s - inner ℂ d s • d‖^2 = 1 - ‖inner ℂ d s‖^2 := by
   let c := inner ℂ d s
-  have orth : inner ℂ (c • d) (s - c • d)=0 := by
-    simp only [inner_smul_left,inner_sub_right,inner_smul_right,inner_self_eq_norm_sq_to_K,hd]
+  have horth : inner ℂ d (s-c • d)=0 := by
+    rw [inner_sub_right,inner_smul_right,inner_self_eq_norm_sq_to_K (𝕜:=ℂ) d,hd]
     simp [c]
+  have orth : inner ℂ (c • d) (s - c • d)=0 := by
+    rw [inner_smul_left,horth,mul_zero]
   have hsum := norm_add_sq_eq_norm_sq_add_norm_sq_of_inner_eq_zero (c • d) (s-c • d) orth
   have hadd : c • d+(s-c • d)=s := by abel
   rw [hadd, hs, norm_smul, hd, mul_one] at hsum
@@ -72,7 +74,8 @@ theorem form_expansion {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℂ
     conv_lhs => rw [decomp]
     simp only [map_add, map_smul, inner_add_left,inner_add_right,inner_smul_left,inner_smul_right]
     rw [symm d η,z,zz,symm d d,hd]
-    simp <;> ring
+    simp
+    ring
   have he := congrArg Complex.re hc
   simp only [Complex.add_re, Complex.conj_re] at he
   unfold interaction

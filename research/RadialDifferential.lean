@@ -104,7 +104,7 @@ theorem weight_direction (x v : Position) :
     funext y; unfold radialModulation radialProfile weight; ring
   rw [hf] at hh
   rw [hh.fderiv]
-  simp [radialCovector,innerSL_apply_apply,smul_eq_mul,div_eq_mul_inv] <;> ring
+  simp [radialCovector,innerSL_apply_apply,smul_eq_mul,div_eq_mul_inv]; ring
 
 theorem weight_direction_origin (v : Position) : fderiv ℝ weight 0 v = 0 := by
   rw [weight_direction]
@@ -128,7 +128,7 @@ theorem product_weight_direction (z v : Position × Position) (Z : ℝ) :
       (fun q => weight q.1*weight q.2/Z) := by funext q; rw [div_eq_mul_inv,mul_comm]
   rw [heq] at hh
   rw [hh.fderiv]
-  simp [ContinuousLinearMap.comp_apply,div_eq_mul_inv,smul_eq_mul,Function.comp_def] <;> ring
+  simp [ContinuousLinearMap.comp_apply,div_eq_mul_inv,smul_eq_mul]; ring
 
 theorem product_weight_first (z : Position × Position) (j : Fin 3) (Z : ℝ) :
     fderiv ℝ (fun q : Position × Position => weight q.1*weight q.2/Z) z (EuclideanSpace.single j 1,0) =

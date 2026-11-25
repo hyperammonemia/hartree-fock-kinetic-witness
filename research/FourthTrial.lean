@@ -1,3 +1,4 @@
+import Mathlib.Analysis.Real.Sqrt
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity

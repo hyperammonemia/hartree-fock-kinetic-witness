@@ -68,7 +68,7 @@ theorem gaussian_half_interval (f d : ℝ → E) (hd : ∀ x, HasDerivAt f (d x)
   have cf : Continuous (fun x => w x*‖f x-f 0‖^2) := hw.mul ((hf.sub continuous_const).norm.pow 2)
   have cx : Continuous (fun x : ℝ => w x*(x*A x)) := hw.mul (continuous_id.mul ca)
   have hcwp : Continuous (fun x : ℝ => (-2)*x*w x) := (continuous_const.mul continuous_id).mul hw
-  have hle := intervalIntegral.integral_mono_on hR (cf.intervalIntegrable _ _) (cx.intervalIntegrable _ _)
+  have hle := intervalIntegral.integral_mono_on (μ:=volume) hR (cf.intervalIntegrable _ _) (cx.intervalIntegrable _ _)
     (fun x hx => mul_le_mul_of_nonneg_left (trace_bound f d hd hc x hx.1) (Real.exp_pos _).le)
   have ibp := intervalIntegral.integral_mul_deriv_eq_deriv_mul (a:=0) (b:=R)
     (fun x _ => hA x) (fun x _ => wp x) (hg.intervalIntegrable _ _) (hcwp.intervalIntegrable _ _)
@@ -92,7 +92,7 @@ theorem gaussian_line (f d : ℝ → E) (hd : ∀ x, HasDerivAt f (d x) x)
   let F := fun x : ℝ => Real.exp (-(x^2))*‖f x-f 0‖^2
   let G := fun x : ℝ => Real.exp (-(x^2))*‖d x‖^2
   have hrud (t : ℝ) : HasDerivAt (fun s => f (-s)) (-d (-t)) t := by
-    simpa using (hd (-t)).comp t (hasDerivAt_neg t)
+    simpa [Function.comp_def] using (hd (-t)).scomp t (hasDerivAt_neg t)
   have hruc : Continuous (fun t => -d (-t)) := (hc.comp continuous_neg).neg
   refine le_of_tendsto_of_tendsto
     (intervalIntegral_tendsto_integral hiF tendsto_neg_atTop_atBot tendsto_id)

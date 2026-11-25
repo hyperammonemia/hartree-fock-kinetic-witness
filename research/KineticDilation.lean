@@ -34,14 +34,14 @@ theorem physical_mass (μ : Measure DilationConfig) [IsAddHaarMeasure μ]
     (Y : DilationConfig → G) {l : ℝ} (hl : 0 < l) :
     (∫ x, ‖dilatedField l 3 Y x‖^2 ∂μ) = ∫ x, ‖Y x‖^2 ∂μ := by
   rw [dilated_square_integral μ Y 3 hl]
-  field_simp [hl.ne'] <;> ring
+  field_simp [hl.ne']
 
 theorem physical_kinetic (μ : Measure DilationConfig) [IsAddHaarMeasure μ]
     (P : Fin 2 → DilationConfig → G) {l : ℝ} (hl : 0 < l) :
     kinetic μ (fun i => dilatedField l 4 (P i)) = l⁻¹^2 * kinetic μ P := by
   unfold kinetic
   simp only [Fin.sum_univ_two,dilated_square_integral μ _ 4 hl]
-  field_simp [hl.ne'] <;> ring
+  field_simp [hl.ne']
 
 theorem physical_fixed_kinetic_order (μ : Measure DilationConfig) [IsAddHaarMeasure μ]
     (P Q : Fin 2 → DilationConfig → G) (h : kinetic μ P < kinetic μ Q) :

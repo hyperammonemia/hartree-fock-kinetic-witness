@@ -37,8 +37,9 @@ theorem orbitals_in_form_domain (F : Submodule ℂ H) (T : Set H) (ht : Dense T)
   have hopen : IsOpen {w : H × H | D w ≠ 0} := isOpen_ne_fun hcont continuous_const
   have hne : ({w : H × H | D w ≠ 0} : Set (H × H)).Nonempty := by
     refine ⟨(v,u),?_⟩
-    change D (v,u) ≠ 0
-    simp [D,hu,hv,huv,hvu]
+    change inner ℂ v v * (-inner ℂ u u) - (-inner ℂ v u)*inner ℂ u v ≠ 0
+    rw [hv,hu,hvu,huv]
+    norm_num
   obtain ⟨⟨w,t⟩,hT,hD⟩ := (ht.prod ht).exists_mem_open hopen hne
   apply invert_rows F u v (inner ℂ w v) (-inner ℂ w u) (inner ℂ t v) (-inner ℂ t u) hD
   · simpa only [neg_smul,sub_eq_add_neg] using hcontract w hT.1

@@ -17,7 +17,7 @@ theorem radialUnit_norm (x : Position) : ‖radialUnit x‖ = 1 := by
   by_cases h : x = 0
   · subst x
     simp [radialUnit,EuclideanSpace.single]
-  · rw [radialUnit,if_neg h,norm_smul,Real.norm_eq_abs,abs_of_nonneg (inv_nonneg.mpr (norm_nonneg _))]
+  · rw [radialUnit,ite_eq_right h,norm_smul,Real.norm_eq_abs,abs_of_nonneg (inv_nonneg.mpr (norm_nonneg _))]
     exact inv_mul_cancel₀ (norm_ne_zero_iff.mpr h)
 
 theorem radialUnit_measurable : Measurable radialUnit := by
@@ -26,16 +26,16 @@ theorem radialUnit_measurable : Measurable radialUnit := by
 
 theorem position_continuous (i : Fin 2) : Continuous (position i) := by
   by_cases h : i = 0
-  · have eq : position i = (Prod.fst : Configuration → Position) := funext fun _ => if_pos h
+  · have eq : position i = (Prod.fst : Configuration → Position) := funext fun _ => ite_eq_left h
     rw [eq]; exact continuous_fst
-  · have eq : position i = (Prod.snd : Configuration → Position) := funext fun _ => if_neg h
+  · have eq : position i = (Prod.snd : Configuration → Position) := funext fun _ => ite_eq_right h
     rw [eq]; exact continuous_snd
 
 theorem remaining_continuous (i : Fin 2) : Continuous (remaining i) := by
   by_cases h : i = 0
-  · have eq : remaining i = (Prod.snd : Configuration → Position) := funext fun _ => if_pos h
+  · have eq : remaining i = (Prod.snd : Configuration → Position) := funext fun _ => ite_eq_left h
     rw [eq]; exact continuous_snd
-  · have eq : remaining i = (Prod.fst : Configuration → Position) := funext fun _ => if_neg h
+  · have eq : remaining i = (Prod.fst : Configuration → Position) := funext fun _ => ite_eq_right h
     rw [eq]; exact continuous_fst
 
 theorem radialSlope_zero : radialSlope 0 = 0 := by
@@ -60,6 +60,15 @@ private theorem weight_top {p : Configuration → Position} (hp : Continuous p) 
 def physicalGradient (Y : Configuration → ℝ) (d : Fin 2 → Configuration → Position)
     (i : Fin 2) (x : Configuration) : Position :=
   modulatedGradient Y d (fun k q => radialUnit (position k q)) i x
+
+/-- Dividing by the actual state norm preserves square integrability. -/
+theorem normalizedWave_memLp (Y : Configuration → ℝ) (hY : MemLp Y 2 configMeasure) :
+    MemLp (normalizedWave Y) 2 configMeasure := by
+  have h : MemLp (fun x : Configuration => weight x.1*weight x.2) ⊤ configMeasure :=
+    (weight_top continuous_fst).fun_mul (weight_top continuous_snd)
+  have h' := h.mul_const (stateNorm Y)⁻¹
+  simpa only [normalizedWave,stepWeight,div_eq_mul_inv] using
+    (h'.fun_mul hY : MemLp (fun x => ((weight x.1*weight x.2)*(stateNorm Y)⁻¹)*Y x) 2 configMeasure)
 
 /-- The gradient displayed by the product rule lies in L² for every H¹ input. -/
 theorem physicalGradient_memLp (Y : Configuration → ℝ) (d : Fin 2 → Configuration → Position)

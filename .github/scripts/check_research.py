@@ -53,6 +53,7 @@ def main():
     env["LEAN_PATH"] = str(out) + os.pathsep + env.get("LEAN_PATH","")
     failures = set()
     summary = []
+    reports = []
     for name in TopologicalSorter(graph).static_order():
         blocked = failures.intersection(graph[name])
         if blocked:
@@ -73,15 +74,24 @@ def main():
             # Annotate complete compiler diagnostics so a separate research
             # session can retrieve them via the public Checks API.
             errors = list(re.finditer(r"(?m)^.*?\.lean:(\d+):(\d+): (?:error|warning):?",output))
+            diagnostics = []
             for i,m in enumerate(errors):
                 end = errors[i+1].start() if i+1<len(errors) else len(output)
-                body = output[m.start():end].split("\n'")[0][:9000]
-                print(f"::error file=research/{p.name},line={m[1]},title={name}::{escape(body)}",flush=True)
+                diagnostics.append(output[m.start():end].split("\n'")[0][:6000])
             if not errors:
-                print(f"::error file=research/{p.name},title={name}::{escape(output[:9000])}",flush=True)
+                diagnostics.append(output[:10000])
+            reports.append((name, "\n".join(diagnostics)))
         summary.append(f"| {name} | {'Failed' if res.returncode else 'Checked'} |")
     result = "| Module | Lean 4.36.0 |\n|---|---|\n"+"\n".join(summary)+"\n"
     print(result)
+    print(f"::notice title=Module status::{escape(result)}",flush=True)
+    # GitHub limits the number of displayed annotations per step. Group the
+    # diagnostics so early errors cannot hide every subsequent proof file.
+    for i in range(0,len(reports),2):
+        batch = reports[i:i+2]
+        names = ", ".join(item[0] for item in batch)
+        body = "\n\n".join(item[0]+"\n"+item[1][:22000] for item in batch)
+        print(f"::error title={names}::{escape(body)}",flush=True)
     if os.getenv("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"],"a") as f:
             f.write(result)

@@ -118,10 +118,10 @@ theorem normalizedWave_mass (Y : Configuration → ℝ) (hY : Integrable (fun x 
 private theorem cont_sine (i : Fin 2) : Continuous (sineProfile i) := by
   have hp : Continuous (position i) := by
     by_cases hi : i = 0
-    · have hp : position i = (Prod.fst : Configuration → Position) := funext fun _ => if_pos hi
+    · have hp : position i = (Prod.fst : Configuration → Position) := funext fun _ => ite_eq_left hi
       rw [hp]
       exact continuous_fst
-    · have hp : position i = (Prod.snd : Configuration → Position) := funext fun _ => if_neg hi
+    · have hp : position i = (Prod.snd : Configuration → Position) := funext fun _ => ite_eq_right hi
       rw [hp]
       exact continuous_snd
   exact (cont_envelope.comp hp.norm).mul (Real.continuous_sin.comp (continuous_const.mul hp.norm))

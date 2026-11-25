@@ -18,8 +18,7 @@ private def d (f : Config → ℝ) (v : Config) := fun x => (fderiv ℝ f x) v
 
 private theorem d_cont {f : Config → ℝ} (hf : ContDiff ℝ 1 f) (v : Config) :
     Continuous (d f v) :=
-  (hf.continuous_fderiv_apply one_ne_zero).comp
-    (continuous_id.prodMk (continuous_const (y := v)))
+  (hf.continuous_fderiv one_ne_zero).clm_apply continuous_const
 
 private theorem d_mul {w φ : Config → ℝ} (hw : ContDiff ℝ 1 w) (hp : ContDiff ℝ 1 φ)
     (v x : Config) : d (w*φ) v x = w x * d φ v x + d w v x * φ x := by

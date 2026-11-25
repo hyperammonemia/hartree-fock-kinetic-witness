@@ -51,7 +51,7 @@ theorem probe_stability {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω)
         rw [integral_add (hD.const_mul (δ⁻¹)) (hyz.const_mul (δ/2)), integral_const_mul,
           integral_const_mul,integral_add hY hZ,mY,mZ]
       _ ≤ δ⁻¹*δ^2+(δ/2)*(1+1) := by gcongr
-      _ = _ := by field_simp [hδ.ne'] <;> ring
+      _ = _ := by field_simp [hδ.ne']; ring
   unfold probe
   simp only [Fin.sum_univ_two]
   calc

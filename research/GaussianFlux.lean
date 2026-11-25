@@ -14,6 +14,21 @@ def densityBarrier (q α r : ℝ) : ℝ :=
 theorem jacobian_pos {r : ℝ} (hr : 0 < r) : 0 < radialJacobian r :=
   mul_pos (sq_pos_of_pos hr) (Real.exp_pos _)
 
+def exteriorReciprocal (q r : ℝ) : ℝ := (radialJacobian (max q r))⁻¹
+
+theorem exteriorReciprocal_pos {q : ℝ} (hq : 0 < q) (r : ℝ) : 0 < exteriorReciprocal q r :=
+  inv_pos.mpr (jacobian_pos (hq.trans_le (le_max_left _ _)))
+
+theorem exteriorReciprocal_continuous {q : ℝ} (hq : 0 < q) : Continuous (exteriorReciprocal q) := by
+  have hj : Continuous (fun r : ℝ => radialJacobian (max q r)) := by
+    unfold radialJacobian
+    fun_prop
+  exact hj.inv₀ (fun r => (jacobian_pos (hq.trans_le (le_max_left _ r))).ne')
+
+theorem physical_flux {q r : ℝ} (hqr : q ≤ r) (v : ℝ → ℝ) :
+    deriv v r / exteriorReciprocal q r = radialJacobian r * deriv v r := by
+  simp only [exteriorReciprocal,max_eq_right hqr,div_eq_mul_inv,inv_inv,mul_comm]
+
 theorem densityBarrier_pos (q α r : ℝ) : 0 < densityBarrier q α r := Real.exp_pos _
 
 theorem gaussian_square_barrier (q α r : ℝ) :

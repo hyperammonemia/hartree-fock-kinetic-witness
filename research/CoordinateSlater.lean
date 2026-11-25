@@ -15,7 +15,8 @@ noncomputable def wave (c : ℂ) (a b : X → ℂ) (z : X × X) : ℂ :=
 private noncomputable def pair (f g : X → ℂ) (x : X) := conj (f x)*g x
 
 private theorem pair_int (μ : Measure X) (a b : Lp ℂ 2 μ) : Integrable (pair a b) μ := by
-  simpa only [pair,← RCLike.inner_apply'] using L2.integrable_inner (𝕜:=ℂ) a b
+  change Integrable (fun x : X => conj (a x)*b x) μ
+  simpa only [RCLike.inner_apply'] using L2.integrable_inner (𝕜:=ℂ) a b
 
 /-- Configuration space may contain both position and a discrete spin label.
     All four orbitals are genuine, arbitrary complex L2 vectors. -/
